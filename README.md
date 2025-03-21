@@ -19,3 +19,39 @@ What makes this challenge valuable is that it touches on many different cloud te
 
 ## Architecture
 ![CRC-Architecture diagram](./images/CRC-archdiagram.png)
+
+### DNS and Domain Management
+* A custom domain name is registered through a domain registrar
+* DNS records are configured in a DNS service i.e. **AWS Route 53**
+* DNS routes user requests to the Content Delivery Network
+
+### Content Delivery Network (AWS-CDN)
+* Serves as the primary entry point for website visitors
+* Caches static content across globally distributed edge locations
+* Provides HTTPS encryption for secure connections
+
+### Static Website Hosting
+* Resume content (HTML, CSS, JavaScript) stored in **AWS S3 Bucket**
+* S3 is configured for static website hosting.(without making objects public or enabling ACls)
+
+### Frontend JavaScript
+* lient-side JavaScript embedded in the HTML
+* Makes asynchronous HTTPS requests to the API Gateway
+* Updates the visitor counter display on the page in real-time
+
+### API Gateway
+* Provides a secure, managed API endpoint,(I used **AWS API-Gateway**)
+* Routes requests from the frontend to the backend serverless function
+* Handles request/response transformation and validation
+
+### Lambda Funtion
+* Executes code without we worrying about the infrastructure.
+* Retrieves and updates the visitor count in DynamoDB.
+* Follows single-responsibility principle for maintainability
+  
+### Database
+* Stores the visitor count in a serverless NoSQL database i.e. **AWS DynamoDB**.
+* Scales automatically with no management overhead
+  
+### Infrastructure as Code (IaC)
+* Defines all the resources 
