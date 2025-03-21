@@ -72,7 +72,19 @@ input, select, textarea {
 }
 
 /* Basic */
-
+.profile-image{
+	width: 120px; 
+    height: 120px; 
+    border-radius: 60%;
+    object-fit: cover; 
+    display: block;
+    margin: 0 0 0 auto; 
+    border: 2px solid #ccc;
+}
+.social-icon {
+    width: 55px;
+    height: 55px;
+}
 	@-ms-viewport {
 		width: device-width;
 	}
@@ -174,7 +186,13 @@ input, select, textarea {
 		margin: 0 0 2em 0;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1{
+		color: #ffffff;
+        font-weight: bold;
+        line-height: 1.5;
+        margin: 0 0 0 0;
+	}
+	h2, h3, h4, h5, h6 {
 		color: #ffffff;
 		font-weight: bold;
 		line-height: 1.5;
@@ -2612,9 +2630,21 @@ input, select, textarea {
 			.image.main img {
 				width: 100%;
 			}
+#visitor-counter {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
 
 /* List */
-
+li.certifcates{
+	padding-bottom: .2em;
+}
 	ol {
 		list-style: decimal;
 		margin: 0 0 2em 0;
@@ -2633,6 +2663,7 @@ input, select, textarea {
 
 		ul li {
 			padding-left: 0.5em;
+			padding-bottom: 0.5em;
 		}
 
 		ul.alt {
