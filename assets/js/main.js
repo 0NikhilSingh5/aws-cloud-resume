@@ -186,5 +186,24 @@
 
 				}
 			});
-
+		
+    // Visitor Counter
+	function updateVisitorCounter() {
+        if (typeof(Storage) !== "undefined") {
+            let visitorCount = localStorage.getItem('visitorCount');
+            if (visitorCount === null) {
+                visitorCount = 1;
+            } else {
+                visitorCount = parseInt(visitorCount) + 1;
+            }
+            localStorage.setItem('visitorCount', visitorCount);
+            $('#visitor-count').text(visitorCount);
+        } else {
+            $('#visitor-count').text('N/A');
+        }
+		
+		$window.on('load', function() {
+			updateVisitorCounter();
+		});
+    }
 })(jQuery);
