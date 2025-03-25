@@ -19,7 +19,7 @@ At its core, this challenge involves creating a personal resume website that's f
 What makes this challenge valuable is that it touches on many different cloud technologies and practices that employers look for, but in a project small enough that one person can complete it. By the end, you'll have not just learned about cloud services, but actually implemented them in a real-world application that you can show to potential employers.
 
 ## Architecture
-![CRC-Architecture diagram](./images/CRC-archdiagram.png)
+![CRC-Architecture diagram](./images/CRC-archdiagram.drawio.png)
 
 ### DNS and Domain Management
 * A custom domain name is registered through a domain registrar
