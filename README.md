@@ -8,6 +8,7 @@ The <a href = 'https://cloudresumechallenge.dev/docs/the-challenge/aws/'>cloud r
 At its core, this challenge involves creating a personal resume website that's fully deployed using cloud services. It was created by Forrest Brazeal to help people demonstrate real-world cloud skills beyond just certifications.
 
 **The key aspects of the Cloud Resume Challenge include:**
+
     1. Building a complete web application with both frontend and backend components
     2. Using cloud services like AWS, Azure, or GCP to host your resume
     3. Implementing DevOps practices like Infrastructure as Code and CI/CD pipelines
