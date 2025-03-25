@@ -1,58 +1,83 @@
-# Cloud Resume Challenge
+# 🌩️ Cloud Resume Challenge
 
-The <a href = 'https://cloudresumechallenge.dev/docs/the-challenge/aws/'>cloud resume challenge</a> is a popular, hands-on project created by **Forrest Brazeal**, a cloud architect and advocate,to help aspiring cloud professionals gain real-world experience with cloud technologies. This challenge isn’t just another technical exercise — it’s designed to push you to combine your technical skills in a way that mirrors the actual responsibilities of a cloud engineer.
+Welcome to my Cloud Resume Challenge! This project follows the structure outlined by Forrest Brazeal and demonstrates my expertise in AWS cloud services, automation, and CI/CD.
 
+## 🚀 Project Overview
+This project consists of a personal resume website hosted entirely on AWS. The stack includes:
+- **Frontend:** HTML, CSS, JavaScript (deployed on AWS S3 and served via CloudFront)
+- **Backend:** AWS Lambda, API Gateway, and DynamoDB to track visitor count
+- **CI/CD:** GitHub Actions for automated deployment
 
-## What's this project about?
+## 🛠️ Technologies Used
+- **AWS Services:** S3, CloudFront, API Gateway, Lambda, DynamoDB, IAM
+- **CI/CD:** GitHub Actions
+- **Programming Languages:** JavaScript, Python
+- **Security & Monitoring:** IAM roles, CloudWatch, AWS Secrets Manager
 
-At its core, this challenge involves creating a personal resume website that's fully deployed using cloud services. It was created by Forrest Brazeal to help people demonstrate real-world cloud skills beyond just certifications.
+## 📜 Features
+- **Static Website Hosting:** The resume is hosted on **AWS S3** and served via **CloudFront** for fast content delivery.
+- **Visitor Counter:** A **serverless backend** using **AWS Lambda + API Gateway + DynamoDB** tracks and displays visitor count.
+- **CI/CD Pipeline:** **GitHub Actions** automatically deploys changes to **S3** and invalidates the **CloudFront** cache.
+- **Security Best Practices:** IAM roles for least-privileged access, HTTPS enforcement via CloudFront.
 
-**The key aspects of the Cloud Resume Challenge include:**
+## 📂 Project Structure
+```
+📁 aws-cloud-resume
+ ├── 📁 .github/workflows
+ |    └── 📄 deploy.yml             #GitHub Actions workflow for CI/CD
+ ├── 📁 assets
+ |   ├── 📁 css
+ |   |   ├── 📄 main.css             #Main CSS-style
+ |   |   ├── 📄 nonscript.css
+ |   |   └── 📄 fontawesome-all.min.css
+ |   ├── 📁 js
+ |   |   └── 📄 main.js              #Main JS-script
+ |   └──  📁 webfonts
+ |
+ ├── 📁 backend
+ │   └── 📄 handler.py               #AWS Lambda function
+ |
+ ├── 📁 images                       #All Image related to site
+ |
+ ├── 📄 index.html                   # Main resume page
+ ├── 📄 job1.html                     
+ ├── 📄 job2.html
+ │   
+ 📜 README.md                       # Project documentation
+```
 
-1. Building a complete web application with both frontend and backend components
-2. Using cloud services like AWS, Azure, or GCP to host your resume
-3. Implementing DevOps practices like Infrastructure as Code and CI/CD pipelines
-4. Working with serverless functions and databases
-5. Setting up networking components like custom domains and CDNs
-<br>
+## 🔧 Setup and Deployment
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/0NikhilSingh5/aws-cloud-resume.git
+cd cloud-resume-challenge
+```
 
-What makes this challenge valuable is that it touches on many different cloud technologies and practices that employers look for, but in a project small enough that one person can complete it. By the end, you'll have not just learned about cloud services, but actually implemented them in a real-world application that you can show to potential employers.
+### 2️⃣ Deploy Frontend
+```sh
+aws s3 sync . s3://your-resume-bucket --delete
+```
 
-## Architecture
-![CRC-Architecture diagram](./images/CRC-archdiagram.drawio.png)
+### 3️⃣ CI/CD via GitHub Actions
+- Push changes to the `master` branch to trigger the deployment workflow (`deploy.yml`).
 
-### DNS and Domain Management
-* A custom domain name is registered through a domain registrar
-* DNS records are configured in a DNS service i.e. **AWS Route 53**
-* DNS routes user requests to the Content Delivery Network
+## 🌐 Live Demo
+You can view the live version of my Cloud Resume here: [https://resume.codenickk.com]
 
-### Content Delivery Network (AWS-CDN)
-* Serves as the primary entry point for website visitors
-* Caches static content across globally distributed edge locations
-* Provides HTTPS encryption for secure connections
+## 📜 Lessons Learned
+- **Serverless Architectures**: Implementing API Gateway + Lambda + DynamoDB
+- **CI/CD Automation**: Leveraging GitHub Actions for automatic deployments
+- **Security Best Practices**: IAM role configurations, CloudFront HTTPS enforcement
 
-### Static Website Hosting
-* Resume content (HTML, CSS, JavaScript) stored in **AWS S3 Bucket**
-* S3 is configured for static website hosting.(without making objects public or enabling ACls)
+## 🎯 Future Enhancements
+- Implement user authentication using Cognito
+- Add a contact form with SES email integration
+- Enhance UI with modern JavaScript frameworks (React/Vue)
 
-### Frontend JavaScript
-* lient-side JavaScript embedded in the HTML
-* Makes asynchronous HTTPS requests to the API Gateway
-* Updates the visitor counter display on the page in real-time
+## 🏆 Acknowledgments
+- **Forrest Brazeal** for the Cloud Resume Challenge inspiration
+- AWS documentation & community for support
 
-### API Gateway
-* Provides a secure, managed API endpoint,(I used **AWS API-Gateway**)
-* Routes requests from the frontend to the backend serverless function
-* Handles request/response transformation and validation
+---
+🙌 Thanks for checking out my Cloud Resume Challenge! If you have any feedback or suggestions, feel free to reach out.
 
-### Lambda Funtion
-* Executes code without we worrying about the infrastructure.
-* Retrieves and updates the visitor count in DynamoDB.
-* Follows single-responsibility principle for maintainability
-  
-### Database
-* Stores the visitor count in a serverless NoSQL database i.e. **AWS DynamoDB**.
-* Scales automatically with no management overhead
-  
-### Infrastructure as Code (IaC)
-* Defines all the resources as code using Terraform.
