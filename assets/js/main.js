@@ -1,3 +1,6 @@
+const SCRIPT_VERSION = '1.0.1';
+console.log(`Script version: ${SCRIPT_VERSION}`);
+
 (function($) {
 
 	var	$window = $(window),
