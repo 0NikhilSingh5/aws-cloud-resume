@@ -2630,11 +2630,11 @@ input, select, textarea {
 			.image.main img {
 				width: 100%;
 			}
-#visitor-counter {
+#visitor-container{
     position: fixed;
     bottom: 10px;
     right: 10px;
-    background-color: rgb(41 31 67);
+    background-color: rgb(97, 72, 165);
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
