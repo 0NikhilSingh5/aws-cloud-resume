@@ -1,9 +1,3 @@
-/*
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
-
 (function($) {
 
 	var	$window = $(window),
@@ -186,24 +180,40 @@
 
 				}
 			});
-		
-    // Visitor Counter
-	function updateVisitorCounter() {
-        if (typeof(Storage) !== "undefined") {
-            let visitorCount = localStorage.getItem('visitorCount');
-            if (visitorCount === null) {
-                visitorCount = 1;
-            } else {
-                visitorCount = parseInt(visitorCount) + 1;
-            }
-            localStorage.setItem('visitorCount', visitorCount);
-            $('#visitor-count').text(visitorCount);
-        } else {
-            $('#visitor-count').text('N/A');
-        }
-		
-		$window.on('load', function() {
-			updateVisitorCounter();
-		});
-    }
+			async function updateVisitorCounter() {
+				try {
+					const response = await fetch('https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/counter', {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					});
+			
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+			
+					const data = await response.json();
+					
+					const counterElement = document.getElementById('visitor-count');
+					
+					if (counterElement) {
+						counterElement.textContent = data.count; // Adjust this based on your API's exact response structure
+					} else {
+						console.error('Visitor count element not found');
+					}
+				} catch (error) {
+					console.error('Failed to fetch visitor counter:', error);
+				}
+			}
+			
+			// Modify the existing load event listener
+			window.addEventListener('load', function () {
+				setTimeout(function () {
+					document.body.classList.remove('is-preload');
+					updateVisitorCounter(); // Call the visitor counter function
+				}, 100);
+			});
+			
 })(jQuery);
+
