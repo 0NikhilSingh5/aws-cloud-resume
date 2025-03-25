@@ -9,11 +9,11 @@ At its core, this challenge involves creating a personal resume website that's f
 
 **The key aspects of the Cloud Resume Challenge include:**
 
-    1. Building a complete web application with both frontend and backend components
-    2. Using cloud services like AWS, Azure, or GCP to host your resume
-    3. Implementing DevOps practices like Infrastructure as Code and CI/CD pipelines
-    4. Working with serverless functions and databases
-    5. Setting up networking components like custom domains and CDNs
+1. Building a complete web application with both frontend and backend components
+2. Using cloud services like AWS, Azure, or GCP to host your resume
+3. Implementing DevOps practices like Infrastructure as Code and CI/CD pipelines
+4. Working with serverless functions and databases
+5. Setting up networking components like custom domains and CDNs
 <br>
 
 What makes this challenge valuable is that it touches on many different cloud technologies and practices that employers look for, but in a project small enough that one person can complete it. By the end, you'll have not just learned about cloud services, but actually implemented them in a real-world application that you can show to potential employers.
@@ -55,4 +55,4 @@ What makes this challenge valuable is that it touches on many different cloud te
 * Scales automatically with no management overhead
   
 ### Infrastructure as Code (IaC)
-* Defines all the resources 
+* Defines all the resources as code using Terraform.
