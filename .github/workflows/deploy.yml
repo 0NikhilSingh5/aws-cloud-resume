@@ -19,4 +19,8 @@ jobs:
 
     - name: Sync files to S3
       run: |
-        aws s3 sync ./build s3://your-bucket-name --delete
+        ws s3 sync . s3://your-bucket-name --delete \
+        --exclude ".github/*" \
+        --exclude ".git/*" \
+        --exclude "README.md*" \
+        --exclude ".gitignore"
