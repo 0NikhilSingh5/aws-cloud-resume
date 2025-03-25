@@ -192,13 +192,11 @@
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-			
 					const data = await response.json();
-					
 					const counterElement = document.getElementById('visitor-count');
 					
 					if (counterElement) {
-						counterElement.textContent = data.count; // Adjust this based on your API's exact response structure
+						counterElement.textContent = data.visits;
 					} else {
 						console.error('Visitor count element not found');
 					}
