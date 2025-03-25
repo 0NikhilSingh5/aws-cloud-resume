@@ -63,7 +63,7 @@ aws s3 sync . s3://your-resume-bucket --delete
 - Push changes to the `master` branch to trigger the deployment workflow (`deploy.yml`).
 
 ## 🌐 Live Demo
-You can view the live version of my Cloud Resume here: [https://resume.codenickk.com]
+You can view the live version of my Cloud Resume here: [resume.codenickk.com](https://resume.codenickk.com)
 
 ## 📜 Lessons Learned
 - **Serverless Architectures**: Implementing API Gateway + Lambda + DynamoDB
@@ -82,3 +82,6 @@ You can view the live version of my Cloud Resume here: [https://resume.codenickk
 ---
 🙌 Thanks for checking out my Cloud Resume Challenge! If you have any feedback or suggestions, feel free to reach out.
 
+---
+This whole project is a challenge by Forrest Brazeal, Check out his socials here: <br>
+[![Forrest Brazeal](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/forrestbrazeal)&nbsp;&nbsp; [![Forrest Brazeal](https://img.shields.io/badge/GitHub-black.svg?logo=github&logoColor=white)](https://github.com/forrestbrazeal)&nbsp;&nbsp;
