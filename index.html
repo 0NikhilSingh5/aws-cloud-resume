@@ -27,31 +27,36 @@
 					<li><a href="#two">Certifications</a></li>
 					<li><a href="#three">Projects</a></li>
 					<br><br>
-					<div id="visitor-count">Visitors: <span id="visitor-count">0</span></div>
-					
+					<div id="visitor-container">Visitors: <span id="visitor-count">0</span></div>
+
 					<script>
 						console.log("Script is running!"); // This will help verify script execution
-					
+
 						async function updateVisitorCounter() {
 							console.log("Update function called"); // Add more logging
 							try {
 								const response = await fetch('https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/counter', {
 									method: 'GET',
-									headers: {
-										'Content-Type': 'application/json'
-									}
+									headers: {'Content-Type': 'application/json'}
 								});
-								
-								console.log("Fetch response:", response); // Log the full response
-								
+
+								console.log("Fetch response:", response);
+
 								if (!response.ok) {
 									console.error(`HTTP error! status: ${response.status}`);
 									return;
 								}
-								
+
 								const data = await response.json();
 								console.log("Received data:", data);
-								
+
+								// Validate response structure
+								if (!data || typeof data.visits === 'undefined') {
+									console.error("Invalid response data:", data);
+									return;
+								}
+
+								// Update correct element
 								const counterElement = document.getElementById('visitor-count');
 								if (counterElement) {
 									counterElement.textContent = data.visits;
@@ -60,11 +65,13 @@
 								console.error('Failed to fetch visitor counter:', error);
 							}
 						}
-					
-						// Multiple ways to trigger the function
+
+						// Ensure function runs after DOM loads
 						window.addEventListener('load', updateVisitorCounter);
 						document.addEventListener('DOMContentLoaded', updateVisitorCounter);
 					</script>
+
+
 				</ul>
 			</nav>
 		</div>
