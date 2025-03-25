@@ -1,1 +1,4 @@
 *.pdf
+
+images/*.bkp
+images/*.dtbkp
