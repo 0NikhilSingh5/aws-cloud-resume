@@ -181,6 +181,7 @@
 				}
 			});
 			async function updateVisitorCounter() {
+				console.log('Attempting to fetch visitor count...')
 				try {
 					const response = await fetch('https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/counter', {
 						method: 'GET',
@@ -188,14 +189,17 @@
 							'Content-Type': 'application/json'
 						}
 					});
-			
+
+					console.log('Response status:', response.status);
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
 					const data = await response.json();
+					console.log('Received data:', data);
 					const counterElement = document.getElementById('visitor-count');
 					
 					if (counterElement) {
+						console.log('Visitor count updated to:', data.visits);
 						counterElement.textContent = data.visits;
 					} else {
 						console.error('Visitor count element not found');
