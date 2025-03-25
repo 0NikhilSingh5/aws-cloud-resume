@@ -19,7 +19,7 @@ jobs:
 
     - name: Sync files to S3
       run: |
-        ws s3 sync . s3://your-bucket-name --delete \
+        ws s3 sync . s3://nikhilsresumebucket --delete \
         --exclude ".github/*" \
         --exclude ".git/*" \
         --exclude "README.md*" \
