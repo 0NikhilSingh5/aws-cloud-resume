@@ -24,3 +24,9 @@ jobs:
         --exclude ".git/*" \
         --exclude "README.md*" \
         --exclude ".gitignore"
+
+    - name: Invalidate CloudFront Cache
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id E1PNSO5QUYT69 \
+          --paths "/*"
