@@ -2,7 +2,7 @@
 
 Welcome to my Cloud Resume Challenge! This project follows the structure outlined by Forrest Brazeal and demonstrates my expertise in AWS cloud services, automation, and CI/CD.
 ## 🏗️ Architecture Diagnostic
-<img title="a title" alt="Alt text" src="/images/CRC-archdiagram.drawio.png">
+<img title="a title" alt="Alt text" src="/images/CRC-archdiagram.jpg">
 ## 🚀 Project Overview
 This project consists of a personal resume website hosted entirely on AWS. The stack includes:
 - **Frontend:** HTML, CSS, JavaScript (deployed on AWS S3 and served via CloudFront)
