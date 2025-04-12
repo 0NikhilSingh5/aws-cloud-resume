@@ -189,27 +189,32 @@
 				<h2>Get in touch</h2>
 				<p>Want to work together? I'm open to new opportunities and collaborations.
 					Feel free to send me an email or connect with me on my social platforms!</p>
-				<div class="split style1">
+				<div class="split style1" >
 					<section>
-						<form method="post" action="#">
+						<form id="contactForm">
 							<div class="fields">
 								<div class="field half">
 									<label for="name">Name</label>
-									<input type="text" name="name" id="name" />
+									<input type="text" name="name" id="name" placeholder="Your name" required />
 								</div>
+								
 								<div class="field half">
 									<label for="email">Email</label>
-									<input type="text" name="email" id="email" />
+									<input type="email" name="email" id="email" placeholder="Your email" required />
 								</div>
+
 								<div class="field">
 									<label for="message">Message</label>
-									<textarea name="message" id="message" rows="5"></textarea>
+									<textarea name="message" id="message" rows="5" placeholder="How can I help you?" required></textarea>
 								</div>
+
 							</div>
 							<ul class="actions">
-								<li><a href="" class="button submit">Send Message</a></li>
+								<li><button type="submit" class="button submit">Send Message</button></li>
 							</ul>
 						</form>
+						<!--! status message -->
+						<div id="formStatus" style="display: none; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(255,255,255,0.1);"></div>
 					</section>
 					<section>
 						<ul class="contact">
