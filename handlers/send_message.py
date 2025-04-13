@@ -1,48 +1,29 @@
-"""
-Contact Form Handler Lambda Function
-
-This AWS Lambda function processes contact form submissions from a static website
-and sends the form data as an email using Amazon SES.
-
-Required environment variables:
-- None (sender and recipient emails are hardcoded in this version)
-
-Required IAM permissions:
-- ses:SendEmail
-
-Form parameters expected in the request:
-- name: The name of the person contacting you
-- email: The email address of the sender
-- message: The content of their message
-"""
-
 import json
 import boto3
 from botocore.exceptions import ClientError
 
 def lambda_handler(event, context):
-    """
-    Main Lambda handler function that processes contact form submissions.
-    
-    Parameters:
-    -----------
-    event : dict
-        The event data passed to the Lambda function, containing the HTTP request details
-    context : LambdaContext
-        Runtime information provided by AWS Lambda
-        
-    Returns:
-    --------
-    dict
-        API Gateway response object containing status code, headers, and JSON body
-    """
     # Parse the incoming event data
+
+    print(f"Received event: {event}")
+
     try:
         # Extract the form data from the API Gateway event
         if 'body' in event:
-            body = json.loads(event['body'])
+            # Handle case where body is a string (normal API Gateway behavior)
+            if isinstance(event['body'], str):
+                body = json.loads(event['body'])
+            # Handle case where body is already an object (API Gateway test console)
+            elif isinstance(event['body'], dict):
+                body = event['body']
+            else:
+                print(f"Unexpected body type: {type(event['body'])}")
+                return generate_response(400, {
+                    'success': False,
+                    'message': f"Invalid body type: {type(event['body'])}"
+                })
         else:
-            # Return error if no body is found in the request
+            print(f"Could not find body in event: {event}")
             return generate_response(400, {
                 'success': False,
                 'message': 'Invalid request format'
@@ -61,8 +42,8 @@ def lambda_handler(event, context):
             })
         
         # Email configuration
-        sender = "Portfolio Website <your-verified-email@example.com>"  # Replace with your verified SES email
-        recipient = "0nikhilsingh5@gmail.com"  # Your personal email to receive messages
+        sender = "Portfolio Website <0nikhilsingh5@gmail.com>"  
+        recipient = "0nikhilsingh5@gmail.com"
         subject = f"New contact from {name} via Portfolio Website"
         
         # Format the email content
@@ -86,6 +67,8 @@ def lambda_handler(event, context):
     except Exception as e:
         # Log the full exception for debugging
         print(f"Error: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
         
         # Return a generic error response
         return generate_response(500, {
@@ -94,23 +77,6 @@ def lambda_handler(event, context):
         })
 
 def format_email_body(name, email, message):
-    """
-    Formats the email body with the form submission data.
-    
-    Parameters:
-    -----------
-    name : str
-        The name of the person contacting you
-    email : str
-        The email address of the sender
-    message : str
-        The content of their message
-        
-    Returns:
-    --------
-    str
-        Formatted email body text
-    """
     return f"""
     You have received a new message from your portfolio website:
     
@@ -118,34 +84,11 @@ def format_email_body(name, email, message):
     Email: {email}
     
     Message:
-    {message}
-    
+    {message} 
     ---
-    This email was sent from your portfolio website contact form.
     """
 
 def send_email_via_ses(sender, recipient, reply_to, subject, body_text):
-    """
-    Sends an email using Amazon SES.
-    
-    Parameters:
-    -----------
-    sender : str
-        The sender's email address (must be verified in SES)
-    recipient : str
-        The recipient's email address
-    reply_to : str
-        The email address to set as Reply-To
-    subject : str
-        The email subject line
-    body_text : str
-        The email body content
-        
-    Returns:
-    --------
-    dict
-        Result of the email sending operation with success flag and message
-    """
     # Create a new SES resource
     # Specify the region where SES is configured
     client = boto3.client('ses', region_name='ap-south-1')  # Use your AWS region
@@ -191,21 +134,7 @@ def send_email_via_ses(sender, recipient, reply_to, subject, body_text):
         }
 
 def generate_response(status_code, body_dict):
-    """
-    Generates a standardized API Gateway response object.
-    
-    Parameters:
-    -----------
-    status_code : int
-        HTTP status code to return
-    body_dict : dict
-        Dictionary to be converted to JSON in the response body
-        
-    Returns:
-    --------
-    dict
-        Complete API Gateway response object
-    """
+   
     return {
         'statusCode': status_code,
         'headers': {
