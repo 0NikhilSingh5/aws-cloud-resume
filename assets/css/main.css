@@ -2576,6 +2576,9 @@ input, select, textarea {
 				.wrapper.style3-alt .icon.major:before {
 					color: #953d75;
 				}
+				#four.wrapper.style1 {
+					background-color: #6e56b3; /* Different color for Get in touch section */
+				}
 
 /* Image */
 
