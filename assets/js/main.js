@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '1.0.1';
+const SCRIPT_VERSION = '1.0.2';
 console.log(`Script version: ${SCRIPT_VERSION}`);
 
 (function($) {
@@ -27,18 +27,111 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 			}, 100);
 		});
 
-	// Forms.
+	// Contact form handling
+	function setupContactForm() {
+		const contactForm = document.getElementById('contactForm');
+		
+		if (contactForm) {
+			console.log('Setting up contact form handler');
+			
+			// Create form status div if it doesn't exist
+			let formStatus = document.getElementById('formStatus');
+			if (!formStatus) {
+				formStatus = document.createElement('div');
+				formStatus.id = 'formStatus';
+				formStatus.style.display = 'none';
+				formStatus.style.marginTop = '20px';
+				formStatus.style.padding = '10px';
+				formStatus.style.borderRadius = '5px';
+				formStatus.style.backgroundColor = 'rgba(255,255,255,0.1)';
+				contactForm.parentNode.insertBefore(formStatus, contactForm.nextSibling);
+			}
+			
+			// Handle form submission
+			contactForm.addEventListener('submit', async function(e) {
+				e.preventDefault();
+				
+				const submitButton = contactForm.querySelector('.submit');
+				const originalText = submitButton.textContent || 'Send Message';
+				
+				// Show loading state
+				submitButton.disabled = true;
+				submitButton.textContent = 'Sending...';
+				
+				const name = document.getElementById('name').value;
+				const email = document.getElementById('email').value;
+				const message = document.getElementById('message').value;
+				
+				console.log(`Sending message from ${name} (${email})`);
+				
+				try {
+					// Your API Gateway endpoint
+					const response = await fetch('https://qn5l9eb16a.execute-api.ap-south-1.amazonaws.com/prod/contact', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ name, email, message })
+					});
+					
+					console.log('Response status:', response.status);
+					const result = await response.json();
+					console.log('Response data:', result);
+					
+					// Parse the response body if it's a string
+					let responseData;
+					if (result.body && typeof result.body === 'string') {
+						try {
+							responseData = JSON.parse(result.body);
+						} catch (e) {
+							responseData = result;
+						}
+					} else {
+						responseData = result;
+					}
+					
+					// Check success flag
+					const success = responseData.success || (responseData.body && responseData.body.success);
+					const responseMessage = responseData.message || 
+											(responseData.body && responseData.body.message) || 
+											'Unknown status';
+					
+					// Display status message
+					formStatus.textContent = success 
+						? 'Thanks for your message! I\'ll get back to you soon.' 
+						: `Sorry, there was an error: ${responseMessage}`;
+					formStatus.style.color = success ? '#7e67d6' : '#e74c3c';
+					formStatus.style.display = 'block';
+					
+					// Reset form on success
+					if (success) {
+						contactForm.reset();
+					}
+				} catch (error) {
+					console.error('Error:', error);
+					formStatus.textContent = 'Sorry, there was a network error. Please try again later.';
+					formStatus.style.color = '#e74c3c';
+					formStatus.style.display = 'block';
+				} finally {
+					// Reset button state
+					submitButton.disabled = false;
+					submitButton.textContent = originalText;
+				}
+			});
+		} else {
+			console.warn('Contact form not found in the DOM');
+		}
+	}
 
+	// Forms.
 		// Hack: Activate non-input submits.
 			$('form').on('click', '.submit', function(event) {
-
 				// Stop propagation, default.
-					event.stopPropagation();
-					event.preventDefault();
+				event.stopPropagation();
+				event.preventDefault();
 
 				// Submit form.
-					$(this).parents('form').submit();
-
+				$(this).parents('form').submit();
 			});
 
 	// Sidebar.
@@ -183,42 +276,43 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 
 				}
 			});
-			async function updateVisitorCounter() {
-				console.log('Attempting to fetch visitor count...')
-				try {
-					const response = await fetch('https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/counter', {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json'
-						}
-					});
-
-					console.log('Response status:', response.status);
-					if (!response.ok) {
-						throw new Error(`HTTP error! status: ${response.status}`);
-					}
-					const data = await response.json();
-					console.log('Received data:', data);
-					const counterElement = document.getElementById('visitor-count');
-					
-					if (counterElement) {
-						console.log('Visitor count updated to:', data.visits);
-						counterElement.textContent = data.visits;
-					} else {
-						console.error('Visitor count element not found');
-					}
-				} catch (error) {
-					console.error('Failed to fetch visitor counter:', error);
-				}
-			}
 			
-			// Modify the existing load event listener
-			window.addEventListener('load', function () {
-				setTimeout(function () {
-					document.body.classList.remove('is-preload');
-					updateVisitorCounter(); // Call the visitor counter function
-				}, 100);
+	async function updateVisitorCounter() {
+		console.log('Attempting to fetch visitor count...')
+		try {
+			const response = await fetch('https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/counter', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			});
+
+			console.log('Response status:', response.status);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			console.log('Received data:', data);
+			const counterElement = document.getElementById('visitor-count');
+			
+			if (counterElement) {
+				console.log('Visitor count updated to:', data.visits);
+				counterElement.textContent = data.visits;
+			} else {
+				console.error('Visitor count element not found');
+			}
+		} catch (error) {
+			console.error('Failed to fetch visitor counter:', error);
+		}
+	}
+	
+	// Modify the existing load event listener
+	window.addEventListener('load', function () {
+		setTimeout(function () {
+			document.body.classList.remove('is-preload');
+			updateVisitorCounter(); // Call the visitor counter function
+			setupContactForm(); // Setup the contact form handler
+		}, 100);
+	});
 			
 })(jQuery);
-
