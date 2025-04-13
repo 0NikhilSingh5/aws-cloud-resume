@@ -2633,15 +2633,35 @@ input, select, textarea {
 			.image.main img {
 				width: 100%;
 			}
+/* Contact section form styling */
+#four input, #four textarea {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for form fields */
+}
+
+#four input:focus, #four textarea:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Glow effect on focus */
+}
+
+/* Social icons styling */
+ul.icons li a {
+    transition: transform 0.2s ease, opacity 0.2s ease; 
+    font-size: 1.5em; /* Increase icon size */
+    padding: 0.1em; 
+}
+
+ul.icons li a:hover {
+    transform: scale(2.9);
+    opacity: 1;
+}
+
 #visitor-container{
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background-color: rgb(97, 72, 165);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    z-index: 1000;
+    background-color: #7e67d6; 
+    border-radius: 30px; 
+    padding: 8px 15px; 
+    font-size: 1.em; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
 }
 
 /* List */
