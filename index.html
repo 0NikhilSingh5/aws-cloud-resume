@@ -267,6 +267,96 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded - setting up contact form handler');
+  
+  const contactForm = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formStatus = document.getElementById('formStatus');
+  
+  if (contactForm && submitBtn) {
+    console.log('Contact form elements found, attaching event');
+    
+    submitBtn.addEventListener('click', async function() {
+      console.log('Submit button clicked');
+      
+      const originalText = submitBtn.textContent;
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      // Validate form
+      if (!name || !email || !message) {
+        formStatus.textContent = 'Please fill out all fields';
+        formStatus.style.color = '#e74c3c';
+        formStatus.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        return;
+      }
+      
+      console.log(`Sending message from ${name} (${email})`);
+      
+      try {
+        // Your API Gateway endpoint
+        const response = await fetch('https://qn5l9eb16a.execute-api.ap-south-1.amazonaws.com/prod/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, message })
+        });
+        
+        console.log('Response status:', response.status);
+        const result = await response.json();
+        console.log('Response data:', result);
+        
+        // Parse the response
+        let success = false;
+        let responseMessage = '';
+        
+        if (result.statusCode === 200) {
+          const bodyObj = typeof result.body === 'string' ? JSON.parse(result.body) : result.body;
+          success = bodyObj.success;
+          responseMessage = bodyObj.message;
+        } else {
+          success = false;
+          responseMessage = 'Server error';
+        }
+        
+        // Display status message
+        formStatus.textContent = success 
+          ? 'Thanks for your message! I\'ll get back to you soon.' 
+          : `Sorry, there was an error: ${responseMessage}`;
+        formStatus.style.color = success ? '#7e67d6' : '#e74c3c';
+        formStatus.style.display = 'block';
+        
+        // Reset form on success
+        if (success) {
+          contactForm.reset();
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        formStatus.textContent = 'Sorry, there was a network error. Please try again later.';
+        formStatus.style.color = '#e74c3c';
+        formStatus.style.display = 'block';
+      } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  } else {
+    console.error('Contact form elements not found');
+  }
+});
+	</script>
 
 </body>
 
