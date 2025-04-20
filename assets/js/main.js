@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '1.0.3'; // Updated version number
+const SCRIPT_VERSION = '1.0.3';
 console.log(`Script version: ${SCRIPT_VERSION}`);
 
 (function($) {
@@ -31,26 +31,32 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 	function setupContactForm() {
 		console.log('Setting up contact form handler');
 		const contactForm = document.getElementById('contactForm');
-		const formStatus = document.getElementById('formStatus');
+		const submitBtn = document.getElementById('submitBtn');
+		const successPopup = document.getElementById('successPopup');
 		
-		if (contactForm) {
-			console.log('Contact form found, attaching submit event');
+		if (contactForm && submitBtn) {
+			console.log('Contact form elements found, attaching event');
 			
-			contactForm.addEventListener('submit', async function(e) {
-				// Prevent default form submission
-				e.preventDefault();
-				console.log('Form submit intercepted');
+			submitBtn.addEventListener('click', async function() {
+				console.log('Submit button clicked');
 				
-				const submitButton = contactForm.querySelector('button[type="submit"]');
-				const originalText = submitButton.textContent;
+				const originalText = submitBtn.textContent;
 				
 				// Show loading state
-				submitButton.disabled = true;
-				submitButton.textContent = 'Sending...';
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Sending...';
 				
 				const name = document.getElementById('name').value;
 				const email = document.getElementById('email').value;
 				const message = document.getElementById('message').value;
+				
+				// Validate form
+				if (!name || !email || !message) {
+					alert('Please fill out all fields');
+					submitBtn.disabled = false;
+					submitBtn.textContent = originalText;
+					return;
+				}
 				
 				console.log(`Sending message from ${name} (${email})`);
 				
@@ -70,41 +76,43 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 					
 					// Parse the response
 					let success = false;
-					let responseMessage = '';
 					
 					if (result.statusCode === 200) {
 						const bodyObj = typeof result.body === 'string' ? JSON.parse(result.body) : result.body;
 						success = bodyObj.success;
-						responseMessage = bodyObj.message;
-					} else {
-						success = false;
-						responseMessage = 'Server error';
 					}
 					
-					// Display status message
-					formStatus.textContent = success 
-						? 'Thanks for your message! I\'ll get back to you soon.' 
-						: `Sorry, there was an error: ${responseMessage}`;
-					formStatus.style.color = success ? '#7e67d6' : '#e74c3c';
-					formStatus.style.display = 'block';
-					
-					// Reset form on success
+					// Display popup notification on success
 					if (success) {
+						// Reset form
 						contactForm.reset();
+						
+						// Show popup
+						if (successPopup) {
+							successPopup.style.display = 'block';
+							
+							// Hide popup after 2.2 seconds
+							setTimeout(function() {
+								successPopup.style.display = 'none';
+							}, 2200);
+						} else {
+							// Fallback if popup element doesn't exist
+							alert('Message sent successfully!');
+						}
+					} else {
+						alert('There was an error sending your message. Please try again later.');
 					}
 				} catch (error) {
 					console.error('Error:', error);
-					formStatus.textContent = 'Sorry, there was a network error. Please try again later.';
-					formStatus.style.color = '#e74c3c';
-					formStatus.style.display = 'block';
+					alert('Sorry, there was a network error. Please try again later.');
 				} finally {
 					// Reset button state
-					submitButton.disabled = false;
-					submitButton.textContent = originalText;
+					submitBtn.disabled = false;
+					submitBtn.textContent = originalText;
 				}
 			});
 		} else {
-			console.error('Contact form not found on this page');
+			console.error('Contact form elements not found on this page');
 		}
 	}
 
@@ -291,17 +299,11 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 		}
 	}
 	
-	// Wait for DOM to be ready
+	// Initialize everything when DOM is ready
 	$(document).ready(function() {
-		console.log('DOM ready - initializing form handler');
+		console.log('DOM ready - initializing components');
 		setupContactForm();
-	});
-	
-	// Call visitor counter on window load
-	$window.on('load', function() {
-		setTimeout(function () {
-			updateVisitorCounter();
-		}, 100);
+		updateVisitorCounter();
 	});
 			
 })(jQuery);
