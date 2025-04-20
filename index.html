@@ -192,29 +192,30 @@
 				<div class="split style1" >
 					<section>
 						<form id="contactForm">
-							<div class="fields">
-								<div class="field half">
-									<label for="name">Name</label>
-									<input type="text" name="name" id="name" placeholder="Your name" required />
+							<form id="contactForm" method="post" onsubmit="return false;">
+								<div class="fields">
+									<div class="field half">
+										<label for="name">Name</label>
+										<input type="text" name="name" id="name" placeholder="Your name" required />
+									</div>
+									
+									<div class="field half">
+										<label for="email">Email</label>
+										<input type="email" name="email" id="email" placeholder="Your email" required />
+									</div>
+							
+									<div class="field">
+										<label for="message">Message</label>
+										<textarea name="message" id="message" rows="5" placeholder="How can I help you?" required></textarea>
+									</div>
+							
 								</div>
-								
-								<div class="field half">
-									<label for="email">Email</label>
-									<input type="email" name="email" id="email" placeholder="Your email" required />
-								</div>
-
-								<div class="field">
-									<label for="message">Message</label>
-									<textarea name="message" id="message" rows="5" placeholder="How can I help you?" required></textarea>
-								</div>
-
-							</div>
-							<ul class="actions">
-								<li><button type="submit" class="button submit">Send Message</button></li>
-							</ul>
-						</form>
-						<!--! status message -->
-						<div id="formStatus" style="display: none; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(255,255,255,0.1);">   </div>
+								<ul class="actions">
+									<li><button type="button" id="submitBtn" class="button submit">Send Message</button></li>
+								</ul>
+							</form>
+							<!--! status message -->
+							<div id="formStatus" style="display: none; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(255,255,255,0.1);"></div></div>
 					</section>
 					<section>
 						<ul class="contact">
