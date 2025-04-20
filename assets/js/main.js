@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '1.0.3';
+const SCRIPT_VERSION = '1.0.4';
 console.log(`Script version: ${SCRIPT_VERSION}`);
 
 (function($) {
@@ -6,6 +6,9 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 	var	$window = $(window),
 		$body = $('body'),
 		$sidebar = $('#sidebar');
+        
+    // Track whether contact form handler has been initialized
+    var contactFormInitialized = false;
 
 	// Breakpoints.
 		breakpoints({
@@ -27,8 +30,14 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 			}, 100);
 		});
 
-	// Contact form handling
+	// Contact form handling - only initialize once
 	function setupContactForm() {
+		// Only set up once to prevent duplicate submissions
+		if (contactFormInitialized) {
+			console.log('Contact form already initialized, skipping setup');
+			return;
+		}
+
 		console.log('Setting up contact form handler');
 		const contactForm = document.getElementById('contactForm');
 		const submitBtn = document.getElementById('submitBtn');
@@ -37,14 +46,19 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 		if (contactForm && submitBtn) {
 			console.log('Contact form elements found, attaching event');
 			
-			submitBtn.addEventListener('click', async function() {
+			// Remove any existing event listeners if possible
+			const newSubmitBtn = submitBtn.cloneNode(true);
+			submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
+			
+			// Add the event listener to the new button
+			newSubmitBtn.addEventListener('click', async function() {
 				console.log('Submit button clicked');
 				
-				const originalText = submitBtn.textContent;
+				const originalText = newSubmitBtn.textContent;
 				
 				// Show loading state
-				submitBtn.disabled = true;
-				submitBtn.textContent = 'Sending...';
+				newSubmitBtn.disabled = true;
+				newSubmitBtn.textContent = 'Sending...';
 				
 				const name = document.getElementById('name').value;
 				const email = document.getElementById('email').value;
@@ -53,8 +67,8 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 				// Validate form
 				if (!name || !email || !message) {
 					alert('Please fill out all fields');
-					submitBtn.disabled = false;
-					submitBtn.textContent = originalText;
+					newSubmitBtn.disabled = false;
+					newSubmitBtn.textContent = originalText;
 					return;
 				}
 				
@@ -107,25 +121,21 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 					alert('Sorry, there was a network error. Please try again later.');
 				} finally {
 					// Reset button state
-					submitBtn.disabled = false;
-					submitBtn.textContent = originalText;
+					newSubmitBtn.disabled = false;
+					newSubmitBtn.textContent = originalText;
 				}
 			});
+			
+			// Mark as initialized
+			contactFormInitialized = true;
+			console.log('Contact form handler successfully initialized');
 		} else {
-			console.error('Contact form elements not found on this page');
+			console.log('Contact form elements not found on this page');
 		}
 	}
 
-	// Forms.
-	// Hack: Activate non-input submits.
-	$('form').on('click', '.submit', function(event) {
-		// Stop propagation, default.
-		event.stopPropagation();
-		event.preventDefault();
-
-		// Submit form.
-		$(this).parents('form').submit();
-	});
+	// Remove any existing jQuery form handlers
+	$('form').off('click', '.submit');
 
 	// Sidebar.
 	if ($sidebar.length > 0) {
@@ -299,7 +309,7 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 		}
 	}
 	
-	// Initialize everything when DOM is ready
+	// Initialize everything when DOM is ready - ONCE ONLY
 	$(document).ready(function() {
 		console.log('DOM ready - initializing components');
 		setupContactForm();
