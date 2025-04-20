@@ -1,4 +1,4 @@
-const SCRIPT_VERSION = '1.0.2';
+const SCRIPT_VERSION = '1.0.3'; // Updated version number
 console.log(`Script version: ${SCRIPT_VERSION}`);
 
 (function($) {
@@ -28,246 +28,240 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 		});
 
 	// Contact form handling
-	// Contact form handler
-function setupContactForm() {
-	console.log('Setting up contact form handler');
-	const contactForm = document.getElementById('contactForm');
-	const formStatus = document.getElementById('formStatus');
-	
-	if (contactForm) {
-	  console.log('Contact form found, attaching submit event');
-	  
-	  contactForm.addEventListener('submit', async function(e) {
-		// Prevent default form submission
-		e.preventDefault();
-		console.log('Form submit intercepted');
+	function setupContactForm() {
+		console.log('Setting up contact form handler');
+		const contactForm = document.getElementById('contactForm');
+		const formStatus = document.getElementById('formStatus');
 		
-		const submitButton = contactForm.querySelector('button[type="submit"]');
-		const originalText = submitButton.textContent;
-		
-		// Show loading state
-		submitButton.disabled = true;
-		submitButton.textContent = 'Sending...';
-		
-		const name = document.getElementById('name').value;
-		const email = document.getElementById('email').value;
-		const message = document.getElementById('message').value;
-		
-		console.log(`Sending message from ${name} (${email})`);
-		
-		try {
-		  // Your API Gateway endpoint
-		  const response = await fetch('https://qn5l9eb16a.execute-api.ap-south-1.amazonaws.com/prod/contact', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ name, email, message })
-		  });
-		  
-		  console.log('Response status:', response.status);
-		  const result = await response.json();
-		  console.log('Response data:', result);
-		  
-		  // Parse the response
-		  let success = false;
-		  let responseMessage = '';
-		  
-		  if (result.statusCode === 200) {
-			const bodyObj = typeof result.body === 'string' ? JSON.parse(result.body) : result.body;
-			success = bodyObj.success;
-			responseMessage = bodyObj.message;
-		  } else {
-			success = false;
-			responseMessage = 'Server error';
-		  }
-		  
-		  // Display status message
-		  formStatus.textContent = success 
-			? 'Thanks for your message! I\'ll get back to you soon.' 
-			: `Sorry, there was an error: ${responseMessage}`;
-		  formStatus.style.color = success ? '#7e67d6' : '#e74c3c';
-		  formStatus.style.display = 'block';
-		  
-		  // Reset form on success
-		  if (success) {
-			contactForm.reset();
-		  }
-		} catch (error) {
-		  console.error('Error:', error);
-		  formStatus.textContent = 'Sorry, there was a network error. Please try again later.';
-		  formStatus.style.color = '#e74c3c';
-		  formStatus.style.display = 'block';
-		} finally {
-		  // Reset button state
-		  submitButton.disabled = false;
-		  submitButton.textContent = originalText;
+		if (contactForm) {
+			console.log('Contact form found, attaching submit event');
+			
+			contactForm.addEventListener('submit', async function(e) {
+				// Prevent default form submission
+				e.preventDefault();
+				console.log('Form submit intercepted');
+				
+				const submitButton = contactForm.querySelector('button[type="submit"]');
+				const originalText = submitButton.textContent;
+				
+				// Show loading state
+				submitButton.disabled = true;
+				submitButton.textContent = 'Sending...';
+				
+				const name = document.getElementById('name').value;
+				const email = document.getElementById('email').value;
+				const message = document.getElementById('message').value;
+				
+				console.log(`Sending message from ${name} (${email})`);
+				
+				try {
+					// Your API Gateway endpoint
+					const response = await fetch('https://qn5l9eb16a.execute-api.ap-south-1.amazonaws.com/prod/contact', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({ name, email, message })
+					});
+					
+					console.log('Response status:', response.status);
+					const result = await response.json();
+					console.log('Response data:', result);
+					
+					// Parse the response
+					let success = false;
+					let responseMessage = '';
+					
+					if (result.statusCode === 200) {
+						const bodyObj = typeof result.body === 'string' ? JSON.parse(result.body) : result.body;
+						success = bodyObj.success;
+						responseMessage = bodyObj.message;
+					} else {
+						success = false;
+						responseMessage = 'Server error';
+					}
+					
+					// Display status message
+					formStatus.textContent = success 
+						? 'Thanks for your message! I\'ll get back to you soon.' 
+						: `Sorry, there was an error: ${responseMessage}`;
+					formStatus.style.color = success ? '#7e67d6' : '#e74c3c';
+					formStatus.style.display = 'block';
+					
+					// Reset form on success
+					if (success) {
+						contactForm.reset();
+					}
+				} catch (error) {
+					console.error('Error:', error);
+					formStatus.textContent = 'Sorry, there was a network error. Please try again later.';
+					formStatus.style.color = '#e74c3c';
+					formStatus.style.display = 'block';
+				} finally {
+					// Reset button state
+					submitButton.disabled = false;
+					submitButton.textContent = originalText;
+				}
+			});
+		} else {
+			console.error('Contact form not found on this page');
 		}
-	  });
-	} else {
-	  console.error('Contact form not found');
 	}
-  }
-  
-  // Add this to your existing window load event or document ready
-  document.addEventListener('DOMContentLoaded', function() {
-	setupContactForm();
-  });
 
 	// Forms.
-		// Hack: Activate non-input submits.
-			$('form').on('click', '.submit', function(event) {
-				// Stop propagation, default.
-				event.stopPropagation();
-				event.preventDefault();
+	// Hack: Activate non-input submits.
+	$('form').on('click', '.submit', function(event) {
+		// Stop propagation, default.
+		event.stopPropagation();
+		event.preventDefault();
 
-				// Submit form.
-				$(this).parents('form').submit();
-			});
+		// Submit form.
+		$(this).parents('form').submit();
+	});
 
 	// Sidebar.
-		if ($sidebar.length > 0) {
+	if ($sidebar.length > 0) {
 
-			var $sidebar_a = $sidebar.find('a');
+		var $sidebar_a = $sidebar.find('a');
 
-			$sidebar_a
-				.addClass('scrolly')
-				.on('click', function() {
+		$sidebar_a
+			.addClass('scrolly')
+			.on('click', function() {
 
-					var $this = $(this);
+				var $this = $(this);
 
-					// External link? Bail.
-						if ($this.attr('href').charAt(0) != '#')
-							return;
+				// External link? Bail.
+					if ($this.attr('href').charAt(0) != '#')
+						return;
 
-					// Deactivate all links.
-						$sidebar_a.removeClass('active');
+				// Deactivate all links.
+					$sidebar_a.removeClass('active');
 
-					// Activate link *and* lock it (so Scrollex doesn't try to activate other links as we're scrolling to this one's section).
-						$this
-							.addClass('active')
-							.addClass('active-locked');
+				// Activate link *and* lock it (so Scrollex doesn't try to activate other links as we're scrolling to this one's section).
+					$this
+						.addClass('active')
+						.addClass('active-locked');
 
-				})
-				.each(function() {
-
-					var	$this = $(this),
-						id = $this.attr('href'),
-						$section = $(id);
-
-					// No section for this link? Bail.
-						if ($section.length < 1)
-							return;
-
-					// Scrollex.
-						$section.scrollex({
-							mode: 'middle',
-							top: '-20vh',
-							bottom: '-20vh',
-							initialize: function() {
-
-								// Deactivate section.
-									$section.addClass('inactive');
-
-							},
-							enter: function() {
-
-								// Activate section.
-									$section.removeClass('inactive');
-
-								// No locked links? Deactivate all links and activate this section's one.
-									if ($sidebar_a.filter('.active-locked').length == 0) {
-
-										$sidebar_a.removeClass('active');
-										$this.addClass('active');
-
-									}
-
-								// Otherwise, if this section's link is the one that's locked, unlock it.
-									else if ($this.hasClass('active-locked'))
-										$this.removeClass('active-locked');
-
-							}
-						});
-
-				});
-
-		}
-
-	// Scrolly.
-		$('.scrolly').scrolly({
-			speed: 1000,
-			offset: function() {
-
-				// If <=large, >small, and sidebar is present, use its height as the offset.
-					if (breakpoints.active('<=large')
-					&&	!breakpoints.active('<=small')
-					&&	$sidebar.length > 0)
-						return $sidebar.height();
-
-				return 0;
-
-			}
-		});
-
-	// Spotlights.
-		$('.spotlights > section')
-			.scrollex({
-				mode: 'middle',
-				top: '-10vh',
-				bottom: '-10vh',
-				initialize: function() {
-
-					// Deactivate section.
-						$(this).addClass('inactive');
-
-				},
-				enter: function() {
-
-					// Activate section.
-						$(this).removeClass('inactive');
-
-				}
 			})
 			.each(function() {
 
 				var	$this = $(this),
-					$image = $this.find('.image'),
-					$img = $image.find('img'),
-					x;
+					id = $this.attr('href'),
+					$section = $(id);
 
-				// Assign image.
-					$image.css('background-image', 'url(' + $img.attr('src') + ')');
+				// No section for this link? Bail.
+					if ($section.length < 1)
+						return;
 
-				// Set background position.
-					if (x = $img.data('position'))
-						$image.css('background-position', x);
+				// Scrollex.
+					$section.scrollex({
+						mode: 'middle',
+						top: '-20vh',
+						bottom: '-20vh',
+						initialize: function() {
 
-				// Hide <img>.
-					$img.hide();
+							// Deactivate section.
+								$section.addClass('inactive');
+
+						},
+						enter: function() {
+
+							// Activate section.
+								$section.removeClass('inactive');
+
+							// No locked links? Deactivate all links and activate this section's one.
+								if ($sidebar_a.filter('.active-locked').length == 0) {
+
+									$sidebar_a.removeClass('active');
+									$this.addClass('active');
+
+								}
+
+							// Otherwise, if this section's link is the one that's locked, unlock it.
+								else if ($this.hasClass('active-locked'))
+									$this.removeClass('active-locked');
+
+						}
+					});
 
 			});
+
+	}
+
+	// Scrolly.
+	$('.scrolly').scrolly({
+		speed: 1000,
+		offset: function() {
+
+			// If <=large, >small, and sidebar is present, use its height as the offset.
+				if (breakpoints.active('<=large')
+				&&	!breakpoints.active('<=small')
+				&&	$sidebar.length > 0)
+					return $sidebar.height();
+
+			return 0;
+
+		}
+	});
+
+	// Spotlights.
+	$('.spotlights > section')
+		.scrollex({
+			mode: 'middle',
+			top: '-10vh',
+			bottom: '-10vh',
+			initialize: function() {
+
+				// Deactivate section.
+					$(this).addClass('inactive');
+
+			},
+			enter: function() {
+
+				// Activate section.
+					$(this).removeClass('inactive');
+
+			}
+		})
+		.each(function() {
+
+			var	$this = $(this),
+				$image = $this.find('.image'),
+				$img = $image.find('img'),
+				x;
+
+			// Assign image.
+				$image.css('background-image', 'url(' + $img.attr('src') + ')');
+
+			// Set background position.
+				if (x = $img.data('position'))
+					$image.css('background-position', x);
+
+			// Hide <img>.
+				$img.hide();
+
+		});
 
 	// Features.
-		$('.features')
-			.scrollex({
-				mode: 'middle',
-				top: '-20vh',
-				bottom: '-20vh',
-				initialize: function() {
+	$('.features')
+		.scrollex({
+			mode: 'middle',
+			top: '-20vh',
+			bottom: '-20vh',
+			initialize: function() {
 
-					// Deactivate section.
-						$(this).addClass('inactive');
+				// Deactivate section.
+					$(this).addClass('inactive');
 
-				},
-				enter: function() {
+			},
+			enter: function() {
 
-					// Activate section.
-						$(this).removeClass('inactive');
+				// Activate section.
+					$(this).removeClass('inactive');
 
-				}
-			});
-			
+			}
+		});
+		
 	async function updateVisitorCounter() {
 		console.log('Attempting to fetch visitor count...')
 		try {
@@ -297,12 +291,16 @@ function setupContactForm() {
 		}
 	}
 	
-	// Modify the existing load event listener
-	window.addEventListener('load', function () {
+	// Wait for DOM to be ready
+	$(document).ready(function() {
+		console.log('DOM ready - initializing form handler');
+		setupContactForm();
+	});
+	
+	// Call visitor counter on window load
+	$window.on('load', function() {
 		setTimeout(function () {
-			document.body.classList.remove('is-preload');
-			updateVisitorCounter(); // Call the visitor counter function
-			setupContactForm(); // Setup the contact form handler
+			updateVisitorCounter();
 		}, 100);
 	});
 			
