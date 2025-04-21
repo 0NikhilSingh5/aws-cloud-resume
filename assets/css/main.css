@@ -3252,7 +3252,14 @@ li.certifcates{
 			}
 
 		}
-
+/* project summary */
+.project-summary {
+	font-size: 0.86em;
+	line-height: 1.35;
+	color: rgba(255, 255, 255, 0.7);
+	margin-bottom: 0.8em;
+	margin-top: .8em;
+  }
 /* Table */
 
 	.table-wrapper {
