@@ -309,11 +309,34 @@ console.log(`Script version: ${SCRIPT_VERSION}`);
 		}
 	}
 	
+	// Mobile menu toggle functionality
+	function setupMobileMenu() {
+		const menuToggle = document.getElementById('menu-toggle');
+		const sidebar = document.getElementById('sidebar');
+		
+		if (menuToggle && sidebar) {
+			menuToggle.addEventListener('click', function() {
+				menuToggle.classList.toggle('active');
+				sidebar.classList.toggle('mobile-open');
+			});
+			
+			// Close menu when clicking on sidebar links
+			const sidebarLinks = sidebar.querySelectorAll('a[href^="#"]');
+			sidebarLinks.forEach(link => {
+				link.addEventListener('click', function() {
+					menuToggle.classList.remove('active');
+					sidebar.classList.remove('mobile-open');
+				});
+			});
+		}
+	}
+
 	// Initialize everything when DOM is ready - ONCE ONLY
 	$(document).ready(function() {
 		console.log('DOM ready - initializing components');
 		setupContactForm();
 		updateVisitorCounter();
+		setupMobileMenu();
 	});
 			
 })(jQuery);
