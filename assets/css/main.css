@@ -912,8 +912,8 @@ ul.actions li {
 }
 
 .fade-up {
-	opacity: 0;
-	transform: translateY(2em);
+	opacity: 1;
+	transform: none;
 	transition: opacity 1s ease, transform 1s ease;
 }
 
