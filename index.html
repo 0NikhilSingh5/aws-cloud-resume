@@ -34,6 +34,11 @@
 						<li><a href="#four">Get In touch</a></li>
 					</ul>
 				</nav>
+				<div class="theme-toggle-container">
+					<button id="theme-toggle" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
+						<i class="fas fa-moon theme-icon"></i>
+					</button>
+				</div>
 			</div>
 			<div class="sidebar-footer">
 				<div id="visitor-container">Visitors: <span id="visitor-count">0</span></div>
@@ -464,6 +469,41 @@
   } else {
     console.error('Contact form elements not found');
   }
+
+  // Theme toggle functionality
+  function setupThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    
+    if (!themeToggle || !themeIcon) return;
+    
+    // Check for saved theme preference or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Update icon based on current theme
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', function() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+      if (theme === 'light') {
+        themeIcon.className = 'fas fa-sun theme-icon';
+      } else {
+        themeIcon.className = 'fas fa-moon theme-icon';
+      }
+    }
+  }
+  
+  // Initialize theme toggle
+  setupThemeToggle();
 });
 	</script>
 
