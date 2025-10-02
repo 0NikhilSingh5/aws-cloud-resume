@@ -243,6 +243,15 @@ h6 {
 	font-size: 0.6em;
 }
 
+/* General paragraph styling */
+p {
+	color: var(--color-text);
+	font-size: 1.1em;
+	line-height: 1.75;
+	margin-bottom: 1.5em;
+	text-align: left;
+}
+
 /* Responsive Font Sizes */
 @media screen and (max-width: 1680px) {
 
@@ -287,31 +296,43 @@ h6 {
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: fixed;
-	text-align: right;
+	text-align: center;
 	top: 0;
 	width: 26em;
 	z-index: 10000;
 	transition: transform 0.5s ease;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #sidebar>.inner {
-	padding: 2.5em 2.5em 0;
+	padding: 2em;
 	position: relative;
-	width: 26em;
+	width: 100%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 #sidebar nav ul {
 	list-style: none;
-	padding: 0;
+	padding: 1em 0;
 }
 
 #sidebar nav ul li {
-	padding: 0.5em 0;
+	padding: 0.3em 0;
+	text-align: center;
+	width: 100%;
 }
 
 #sidebar nav ul li a {
 	border: 0;
-	border-bottom: none;
+	border-bottom: none !important;
 	color: var(--color-text);
 	display: block;
 	font-size: 0.9em;
@@ -323,6 +344,9 @@ h6 {
 	text-decoration: none;
 	text-transform: uppercase;
 	transition: color 0.2s ease;
+	text-align: center !important;
+	width: 100%;
+	justify-content: center;
 }
 
 #sidebar nav ul li a:hover {
@@ -337,53 +361,93 @@ h6 {
 }
 
 .wrapper {
-	padding: 6em 0 4em 0;
+	padding: 2em 0;
 	position: relative;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+}
+
+/* Experience section specific styling */
+.wrapper.style2 {
+	padding: 4em 0 2em 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 }
 
 .wrapper>.inner {
 	width: 90%;
 	max-width: 1200px;
 	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+/* Experience section inner styling */
+.wrapper.style2 > .inner {
+	min-height: auto;
+	width: 100%;
+	padding: 0;
 }
 
 /* Profile Image */
 .profile-image {
-	width: 120px;
-	height: 120px;
-	border-radius: 60%;
-	object-fit: cover;
-	display: block;
-	margin: 0 auto;
-	border: 2px solid #ccc;
+    width: 100px;
+    height: 100px;
+    border-radius: 60%;
+    object-fit: cover;
+    display: block;
+    margin: 1em auto 1em auto;
+    border: 2px solid #ccc;
 }
 
 /* Sections */
 section {
-	margin-top: 5em;
+	margin: 0;
+	padding: 2em 0;
 }
 
 /* Spotlights (Experience Section) */
 .spotlights {
 	display: flex;
 	flex-direction: column;
-	gap: 2em;
+	gap: 1.5em;
+	margin: 0;
+	padding: 0 2em;
 }
 
 .spotlights>section {
-	display: flex;
-	align-items: center;
-	background-color: var(--color-secondary);
-	border-radius: 12px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-	padding: 3em;
-	margin: 0;
-	transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-secondary);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 2.5em;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 90%;
 }
 
 .spotlights>section:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Experience section header */
+.spotlights > .inner {
+	text-align: left;
+	margin-bottom: 1.5em;
+}
+
+.spotlights > .inner h2 {
+	color: var(--color-text-light);
+	font-size: 1.90em;
+	margin-bottom: 0;
 }
 
 .spotlights>section>.content {
@@ -456,6 +520,39 @@ section {
 	font-size: 1.2em;
 }
 
+/* Ensure Font Awesome glyphs render */
+.icon:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	font-style: normal;
+	display: inline-block;
+	text-rendering: auto;
+}
+.icon.brands:before {
+	font-family: "Font Awesome 5 Brands";
+	font-weight: 400;
+}
+
+/* Header (job pages) spacing and alignment */
+#header {
+	background: var(--color-secondary);
+	position: sticky;
+	top: 0;
+	z-index: 9999;
+	padding: 1em;
+}
+#header .title { border-bottom: none; font-weight: 600; }
+
+/* Wrapper alignment for pages without sidebar (job pages) */
+body.job-page #wrapper { margin-left: 0; }
+
+/* Sidebar alignment fix: avoid overlapping main content */
+body:not(.has-sidebar) #wrapper { margin-left: 0; }
+
+/* Constrain social list so it doesn’t overflow */
+ul.contact { overflow: hidden; }
+ul.contact li { word-break: break-word; }
+
 .features section h3 {
 	margin-top: 1em;
 	margin-left: 5em;
@@ -472,22 +569,36 @@ section {
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 	padding: 3em;
 	border: none;
+	min-height: 60vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .certifcates ul li {
-	padding-bottom: 0.8em;
+	padding-bottom: 1.5em;
+	font-size: 1.1em;
+	line-height: 1.6;
+}
+
+.certifcates ul li:last-child {
+	padding-bottom: 0;
 }
 
 /* Visitor Counter */
 #visitor-container {
 	background-color: var(--color-accent);
 	border-radius: 30px;
-	padding: 10px 20px;
-	font-size: 1.1em;
+	padding: 6px 12px;
+	font-size: 0.9em;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 	border: 1px solid rgba(255, 255, 255, 0.2);
 	transition: all 0.3s ease;
-	margin: 2em 0;
+	margin: 1em auto;
+	text-align: center;
+	width: fit-content;
+	max-width: 100%;
+	display: block;
 }
 
 #visitor-container:hover {
@@ -496,11 +607,24 @@ section {
 }
 
 /* Social Icons */
+/* Social list: icons only - horizontal layout */
+ul.icons { 
+    display: flex !important; 
+    flex-direction: row !important; 
+    gap: 0.8em; 
+    padding-top: 0.5em; 
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+ul.icons li { list-style: none; }
 ul.icons li a {
-	font-size: 1.5em;
-	padding: 0.1em;
-	color: rgba(255, 255, 255, 0.7);
-	transition: transform 0.2s ease, color 0.2s ease;
+    font-size: 1.4em;
+    padding: 0.3em;
+    color: rgba(255, 255, 255, 0.8);
+    transition: transform 0.2s ease, color 0.2s ease;
+    border: none;
+    display: block;
 }
 
 ul.icons li a:hover {
@@ -712,19 +836,21 @@ form {
 form .fields {
 	display: flex;
 	flex-wrap: wrap;
-	width: calc(100% + 3em);
-	margin: -1.5em 0 2em -1.5em;
+	width: 100%;
+	margin: 0 0 2em 0;
+	gap: 0;
 }
 
 form .fields>.field {
 	flex-grow: 0;
 	flex-shrink: 0;
-	padding: 1.5em 0 0 1.5em;
-	width: calc(100% - 1.5em);
+	padding: 1.5em 0 0 0;
+	width: 100%;
 }
 
 form .fields>.field.half {
-	width: calc(50% - 0.75em);
+	width: calc(50% - 0.5em);
+	padding-right: 0.5em;
 }
 
 form .field>label {
@@ -761,6 +887,8 @@ form .field>textarea:focus {
 form .field>textarea {
 	height: 10em;
 	resize: vertical;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 /* Button Styles */
@@ -803,7 +931,7 @@ form .field>textarea {
 /* Split Layout for Contact Section */
 .split {
 	display: flex;
-	gap: 4em;
+	gap: 2em;
 }
 
 .split>section {
@@ -909,6 +1037,7 @@ ul.actions li {
 	min-height: 100vh;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 .fade-up {
