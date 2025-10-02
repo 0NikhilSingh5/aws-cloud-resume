@@ -391,6 +391,7 @@
       
       // Show loading state
       submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
       submitBtn.textContent = 'Sending...';
       
       const name = document.getElementById('name').value;
@@ -483,6 +484,7 @@
       } finally {
         // Reset button state
         submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
         submitBtn.textContent = originalText;
       }
     });

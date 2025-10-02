@@ -1931,3 +1931,285 @@ ul.actions li {
 		padding: 1.5em;
 	}
 }
+
+/* ============================================================
+   60fps Optimized Animations & Performance
+============================================================ */
+
+/* Hardware Acceleration for Smooth Animations */
+.profile-image,
+.project-card,
+.cert-card,
+.experience-list li,
+.theme-toggle-btn,
+.nav-arrow,
+.nav-home,
+.spotlights .actions .button,
+.project-link,
+.social-icon {
+	will-change: transform;
+	transform: translateZ(0);
+	backface-visibility: hidden;
+	perspective: 1000px;
+}
+
+/* Smooth 60fps Hover Animations */
+.project-card {
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+	transform: translateY(-8px) translateZ(0);
+	box-shadow: 0 20px 40px rgba(126, 103, 214, 0.3);
+	filter: brightness(1.05);
+}
+
+.cert-card {
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cert-card:hover {
+	transform: translateY(-6px) translateZ(0);
+	box-shadow: 0 15px 30px rgba(126, 103, 214, 0.25);
+	filter: brightness(1.03);
+}
+
+/* Optimized Experience List Animations */
+.experience-list li {
+	transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+	           border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.experience-list li:hover {
+	transform: translateY(-3px) translateZ(0);
+	box-shadow: 0 12px 24px rgba(126, 103, 214, 0.2);
+}
+
+/* Smooth Button Animations */
+.theme-toggle-btn {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:hover {
+	transform: translateY(-2px) scale(1.05) translateZ(0);
+	box-shadow: 0 8px 16px rgba(126, 103, 214, 0.4);
+	filter: brightness(1.1);
+}
+
+.theme-toggle-btn:active {
+	transform: translateY(0) scale(0.98) translateZ(0);
+	transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Navigation Button Animations */
+.nav-arrow,
+.nav-home {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-arrow:hover,
+.nav-home:hover {
+	transform: translateY(-3px) scale(1.1) translateZ(0);
+	box-shadow: 0 10px 20px rgba(126, 103, 214, 0.4);
+	filter: brightness(1.15);
+}
+
+.nav-arrow:active,
+.nav-home:active {
+	transform: translateY(-1px) scale(1.05) translateZ(0);
+	transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Project Link Smooth Animations */
+.project-link {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-link:hover {
+	transform: translateY(-1px) translateZ(0);
+	box-shadow: 0 4px 8px rgba(126, 103, 214, 0.3);
+}
+
+/* Experience Button Optimized Animations */
+.spotlights .actions .button {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spotlights .actions .button:hover {
+	transform: translateY(-1px) translateZ(0);
+	box-shadow: 0 4px 8px rgba(126, 103, 214, 0.25);
+}
+
+.spotlights .actions .button:active {
+	transform: translateY(0) translateZ(0);
+	transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Social Icon Smooth Animations */
+.social-icon {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-icon:hover {
+	transform: translateY(-2px) scale(1.15) rotate(5deg) translateZ(0);
+	filter: brightness(1.2);
+}
+
+.social-icon:active {
+	transform: translateY(0) scale(1.1) rotate(3deg) translateZ(0);
+	transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Profile Image Smooth Animation */
+.profile-image {
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-image:hover {
+	transform: scale(1.05) translateZ(0);
+	filter: brightness(1.1) contrast(1.05);
+	box-shadow: 0 8px 16px rgba(126, 103, 214, 0.3);
+}
+
+/* Smooth Scroll Behavior */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Optimized Form Animations */
+form .field input,
+form .field textarea {
+	transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+form .field input:focus,
+form .field textarea:focus {
+	transform: translateZ(0);
+	box-shadow: 0 0 0 2px rgba(126, 103, 214, 0.2);
+}
+
+/* Submit Button Enhanced Animation */
+#submitBtn {
+	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	           filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: transform;
+}
+
+#submitBtn:hover:not(:disabled) {
+	transform: translateY(-2px) translateZ(0);
+	box-shadow: 0 8px 16px rgba(126, 103, 214, 0.4);
+	filter: brightness(1.1);
+}
+
+#submitBtn:active:not(:disabled) {
+	transform: translateY(0) translateZ(0);
+	transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#submitBtn:disabled {
+	transform: none;
+	filter: brightness(0.8);
+	cursor: not-allowed;
+}
+
+/* Loading Animation for Submit Button */
+#submitBtn.loading {
+	position: relative;
+	color: transparent;
+}
+
+#submitBtn.loading::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 16px;
+	height: 16px;
+	margin: -8px 0 0 -8px;
+	border: 2px solid transparent;
+	border-top: 2px solid currentColor;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+	color: white;
+}
+
+/* Performance Optimizations */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* Keyframes for Optimized Animations */
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) translateZ(0);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) translateZ(0);
+	}
+}
+
+@keyframes slideInLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(-30px) translateZ(0);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) translateZ(0);
+	}
+}
+
+@keyframes slideInRight {
+	0% {
+		opacity: 0;
+		transform: translateX(30px) translateZ(0);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) translateZ(0);
+	}
+}
+
+/* GPU Acceleration for Theme Toggle */
+[data-theme="light"] * {
+	transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+	           border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
