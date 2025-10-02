@@ -1614,3 +1614,320 @@ ul.actions li {
 	background: rgba(255, 255, 255, 0.05);
 	display: none;
 }
+
+/* Contact Form Actions */
+.actions {
+	display: flex;
+	justify-content: center;
+}
+
+/* Experience Section Actions - Left Aligned */
+.spotlights .actions {
+	justify-content: flex-start;
+}
+
+.actions .button {
+	text-align: center;
+}
+
+/* Experience Section Know More Buttons */
+.spotlights .actions .button {
+	padding: 0.1em 0.6em;
+	font-size: 0.85em;
+	border-radius: 5px;
+	background: transparent;
+	border: 1px solid var(--color-accent);
+	color: var(--color-accent);
+	transition: all 0.3s ease;
+	text-transform: none;
+	font-weight: 500;
+	display: inline-block;
+	width: auto;
+}
+
+.spotlights .actions .button:hover {
+	background: var(--color-accent);
+	color: white;
+	transform: none;
+	box-shadow: none;
+}
+
+/* Light theme adjustments for experience buttons */
+[data-theme="light"] .spotlights .actions .button {
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}
+
+[data-theme="light"] .spotlights .actions .button:hover {
+	background: var(--color-accent);
+	color: white;
+}
+
+/* ============================================================
+   Job Pages Styling
+============================================================ */
+
+/* Job Header */
+.job-header {
+	text-align: center;
+	margin-bottom: 4em;
+	padding: 2em 0;
+	border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.company-name {
+	font-size: 3.5em;
+	font-weight: 700;
+	color: var(--color-accent);
+	margin-bottom: 0.5em;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.job-title {
+	font-size: 2em;
+	color: var(--color-text-light);
+	margin-bottom: 1em;
+	font-weight: 300;
+}
+
+.job-duration,
+.job-location {
+	display: inline-block;
+	margin: 0 1em;
+	color: var(--color-text);
+	font-size: 1.1em;
+}
+
+.job-duration i,
+.job-location i {
+	color: var(--color-accent);
+	margin-right: 0.5em;
+}
+
+/* Job Navigation */
+.job-navigation {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1em;
+	margin-top: 2em;
+}
+
+.nav-arrow,
+.nav-home {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	background: var(--color-accent);
+	color: white;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	font-size: 1.2em;
+}
+
+.nav-home {
+	background: linear-gradient(135deg, var(--color-accent) 0%, #9f7aea 100%);
+	width: 50px;
+	height: 50px;
+}
+
+.nav-arrow:hover,
+.nav-home:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 6px 20px rgba(126, 103, 214, 0.4);
+}
+
+/* Work Experience Section */
+.work-experience {
+	margin-bottom: 4em;
+}
+
+.experience-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.experience-list li {
+	padding: 2em;
+	margin-bottom: 2em;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-left: 4px solid var(--color-accent);
+	transition: all 0.3s ease;
+	position: relative;
+}
+
+.experience-list li:before {
+	content: "•";
+	color: var(--color-accent);
+	font-size: 1.5em;
+	position: absolute;
+	left: -0.5em;
+	top: 2.2em;
+	background: var(--color-primary);
+	width: 1em;
+	height: 1em;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid var(--color-accent);
+}
+
+.experience-list li:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 30px rgba(126, 103, 214, 0.2);
+	border-left-color: var(--color-accent);
+}
+
+.experience-list li h4 {
+	font-size: 1.4em;
+	color: var(--color-text-light);
+	margin-bottom: 1em;
+}
+
+.experience-list li p {
+	color: var(--color-text);
+	line-height: 1.6;
+	margin-bottom: 1.5em;
+}
+
+
+/* Skills Section */
+.skills-section {
+	margin-top: 4em;
+}
+
+.skills-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 2em;
+}
+
+.skill-category {
+	padding: 2em;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skill-category h4 {
+	font-size: 1.2em;
+	color: var(--color-text-light);
+	margin-bottom: 1em;
+	text-align: center;
+}
+
+.skill-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	justify-content: center;
+}
+
+.skill-tag {
+	background: rgba(255, 255, 255, 0.1);
+	color: var(--color-text);
+	padding: 0.5em 1em;
+	border-radius: 25px;
+	font-size: 0.9em;
+	font-weight: 500;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	transition: all 0.3s ease;
+}
+
+.skill-tag.primary {
+	background: var(--color-accent);
+	color: white;
+	border-color: var(--color-accent);
+}
+
+.skill-tag:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(126, 103, 214, 0.3);
+}
+
+/* Light Theme Adjustments */
+[data-theme="light"] .job-header {
+	border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .experience-list li,
+[data-theme="light"] .skill-category {
+	background: rgba(0, 0, 0, 0.03);
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .experience-list li:hover {
+	box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="light"] .experience-list li:before {
+	background: var(--color-primary);
+}
+
+
+[data-theme="light"] .skill-tag {
+	background: rgba(0, 0, 0, 0.05);
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .skill-tag:hover {
+	box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="light"] .nav-arrow:hover,
+[data-theme="light"] .nav-home:hover {
+	box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 980px) {
+	.company-name {
+		font-size: 2.5em;
+	}
+	
+	.job-title {
+		font-size: 1.5em;
+	}
+	
+	.experience-list li {
+		padding: 1.5em;
+		margin-left: 1em;
+	}
+	
+	.experience-list li:before {
+		left: -1em;
+	}
+	
+	.skills-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media screen and (max-width: 736px) {
+	.company-name {
+		font-size: 2em;
+	}
+	
+	.job-duration,
+	.job-location {
+		display: block;
+		margin: 0.5em 0;
+	}
+	
+	.experience-list li {
+		padding: 1.2em;
+		margin-left: 0.8em;
+	}
+	
+	.skill-category {
+		padding: 1.5em;
+	}
+}
