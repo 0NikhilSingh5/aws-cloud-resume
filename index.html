@@ -23,18 +23,21 @@
 	<!-- Sidebar -->
 	<section id="sidebar">
 		<div class="inner">
-			<nav>
-
-				<ul>
-					<li><img src="./images/self.png" alt="potrait" class="profile-image"></li>
-					<li><a href="#intro">About</a></li>
-					<li><a href="#one">Experience</a></li>
-					<li><a href="#two">Certifications</a></li>
-					<li><a href="#three">Projects</a></li>
-					<li><a href="#four">Get In touch</a></li>
-					<li><div id="visitor-container">Visitors: <span id="visitor-count">0</span></div></li>
-				</ul>
-			</nav>
+			<div class="sidebar-content">
+				<img src="./images/self.png" alt="potrait" class="profile-image">
+				<nav>
+					<ul>
+						<li><a href="#intro">About</a></li>
+						<li><a href="#one">Experience</a></li>
+						<li><a href="#two">Certifications</a></li>
+						<li><a href="#three">Projects</a></li>
+						<li><a href="#four">Get In touch</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="sidebar-footer">
+				<div id="visitor-container">Visitors: <span id="visitor-count">0</span></div>
+			</div>
 		</div>
 	</section>
 
@@ -94,102 +97,152 @@
 
 		<!--! Certifications -->
 		<section id="two" class="wrapper style3 fade-up">
-			<div class="inner certifcates">
-				<br>
-
+			<div class="inner">
 				<h2>Professional Certifications</h2>
 				<br>
-				
-				<br>
-				<ul>
+				<div class="cert-grid">
+					<div class="cert-card">
+						<div class="cert-logo">
+							<img src="http://googleusercontent.com/image_collection/image_retrieval/17479721597663522805" alt="AWS Certified Developer Associate" />
+						</div>
+						<div class="cert-content">
+							<h3>AWS Certified Developer Associate</h3>
+							<p class="cert-issuer">Amazon Web Services (AWS)</p>
+							<p class="cert-id">ID: ZQJZ42BKRMEE1P9N</p>
+							<a href="https://www.credly.com/badges/0a1d27d3-8456-418d-8c54-6d2be1d180da/public_url" target="_blank" class="cert-link">View Certificate</a>
+						</div>
+					</div>
 
-					<li>AWS Certified Developer Associate <span><a
-							href="https://www.credly.com/badges/0a1d27d3-8456-418d-8c54-6d2be1d180da/public_url"
-							target="_blank">(ZQJZ42BKRMEE1P9N)</a></span>
-					</li>
-					<br>
-					<li>Oracle Cloud infrastructure foundations Associate <span><a
-							href="https://pubartifacts-bkt.s3.ap-south-1.amazonaws.com/Oracle+Cloud+Infrastructure+Foundations+2021+Certified+Associate.pdf"
-							target="_blank">(289337060OCIBF2021)</a></span></li>
-					<br>
-					<li>IBM Developer Skills Network -SQL & Relational Database 101 <span><a
-							href="https://courses.cognitiveclass.ai/certificates/5dcf1f5bb53840b58130ebdde572bbe0"
-							target="_blank">(DB0101EN)</a></span></li>
-					<br>
-					<li>IBM Developer Skills Network - Docker Essential <span><a
-							href="https://courses.cognitiveclass.ai/certificates/44de7bc0645041708503d3f5f413e8dd"
-							target="_blank">(CO0101EN)</a></span></li>
-					<br>
-					<li>Acumatica W140 Customization Projects 2023 R1
-						<span><a href="https://pubartifacts-bkt.s3.ap-south-1.amazonaws.com/W140+Customization+Projects+2023+R1.pdf"
-								target="_blank">(102578382)</a></span>
-					</li>
-					<br>
-					<li>
-						windows Server 2012: Installation and Configuration <span><a
-								href="https://pubartifacts-bkt.s3.ap-south-1.amazonaws.com/Windows+Server+2012+Installation+and.pdf"
-								target="_blank">(AblMOmVoa0Ce-sxunXUINjY_alr4)</a></span>
-					</li>
+					<div class="cert-card">
+						<div class="cert-logo">
+							<img src="http://googleusercontent.com/image_collection/image_retrieval/899648814065008316" alt="Oracle Cloud Infrastructure Foundations Associate" />
+						</div>
+						<div class="cert-content">
+							<h3>Oracle Cloud Infrastructure Foundations Associate</h3>
+							<p class="cert-issuer">Oracle</p>
+							<p class="cert-id">ID: 289337060OCIBF2021</p>
+							<a href="https://pubartifacts-bkt.s3.ap-south-1.amazonaws.com/Oracle+Cloud+Infrastructure+Foundations+2021+Certified+Associate.pdf" target="_blank" class="cert-link">View Certificate</a>
+						</div>
+					</div>
 
-				</ul>
+					<div class="cert-card">
+						<div class="cert-logo">
+							<img src="http://googleusercontent.com/image_collection/image_retrieval/251016384203113390" alt="IBM Developer Skills Network - SQL & Relational Database 101" />
+						</div>
+						<div class="cert-content">
+							<h3>SQL & Relational Database 101</h3>
+							<p class="cert-issuer">IBM Developer Skills Network</p>
+							<p class="cert-id">ID: DB0101EN</p>
+							<a href="https://courses.cognitiveclass.ai/certificates/5dcf1f5bb53840b58130ebdde572bbe0" target="_blank" class="cert-link">View Certificate</a>
+						</div>
+					</div>
+
+					<div class="cert-card">
+						<div class="cert-logo">
+							<img src="http://googleusercontent.com/image_collection/image_retrieval/939474139596593557" alt="IBM Developer Skills Network - Docker Essential" />
+						</div>
+						<div class="cert-content">
+							<h3>Docker Essential</h3>
+							<p class="cert-issuer">IBM Developer Skills Network</p>
+							<p class="cert-id">ID: CO0101EN</p>
+							<a href="https://courses.cognitiveclass.ai/certificates/44de7bc0645041708503d3f5f413e8dd" target="_blank" class="cert-link">View Certificate</a>
+						</div>
+					</div>
+
+					<div class="cert-card">
+						<div class="cert-logo">
+							<img src="http://googleusercontent.com/image_collection/image_retrieval/9026799753099649627" alt="Acumatica W140 Customization Projects 2023 R1" />
+						</div>
+						<div class="cert-content">
+							<h3>W140 Customization Projects 2023 R1</h3>
+							<p class="cert-issuer">Acumatica</p>
+							<p class="cert-id">ID: 102578382</p>
+							<a href="https://pubartifacts-bkt.s3.ap-south-1.amazonaws.com/W140+Customization+Projects+2023+R1.pdf" target="_blank" class="cert-link">View Certificate</a>
+						</div>
+					</div>
+
+					<div class="cert-card">
+						<div class="cert-logo">
+							<img src="http://googleusercontent.com/image_collection/image_retrieval/1284148158045215618" alt="Windows Server 2012: Installation and Configuration" />
+						</div>
+						<div class="cert-content">
+							<h3>Windows Server 2012: Installation and Configuration</h3>
+							<p class="cert-issuer">Microsoft</p>
+							<p class="cert-id">ID: AblMOmVoa0Ce-sxunXUINjY_alr4</p>
+							<a href="https://pubartifacts-bkt.s3.ap-south-1.amazonaws.com/Windows+Server+2012+Installation+and.pdf" target="_blank" class="cert-link">View Certificate</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</section>
 
 		<!--! projects -->
 		<section id="three" class="wrapper style1 fade-up">
 			<div class="inner">
-				<h2>Projects</h2>
-				
-				<p></p>
-				<div class="features">
-					<section>
-						<span class="icon solid major fa-cloud"></span>
-						<a href="https://github.com/0NikhilSingh5/aws-cloud-resume" target="_blank">
-							<h3>Cloud Resume</h3>
-							<p class="project-summary">A serverless resume site built for Forrest Brazeal’s Cloud Resume Challenge. Uses AWS S3 for hosting, CloudFront for CDN delivery, Lambda and API Gateway for dynamic visitor tracking, and DynamoDB for persistence. CI/CD automated via GitHub Actions. Infrastructure as Code implemented with Terraform for reproducibility.</p>
-						</a>
-					</section>
-
-					<section>
-						<span class="icon solid major fa-code-branch"></span>
-						<a href="https://github.com/0NikhilSingh5/acumatica_autoamted_build_publish" target="_blank">
-							<h3>Acumatica complete CI/CD</h3>
-							<p class="project-summary">Fully automated CI/CD pipeline for Acumatica ERP customizations using Jenkins and Groovy. Includes secure package uploads, encryption handling, rollback strategies, and real-time email notifications. Reduces deployment time from hours to minutes, eliminating human error and ensuring consistent, repeatable releases.</p>
-						</a>
-
-					</section>
-
-					<section>
-						<span class="icon solid major fa-project-diagram"></span>
-						<a href="https://github.com/0NikhilSingh5/iis-config-manager" target="_blank">
-							<h3>IIS Configuration manager</h3>
-							<p class="project-summary">PowerShell-based desktop tool for safe and efficient IIS website configuration. Offers encryption/decryption of web.config secrets, real-time app pool health checks, and automated config backups—all through an intuitive GUI. Designed to eliminate risky manual edits and streamline DevOps workflows for Windows-based web apps.</p>
-						</a>
-					</section>
-
-					<section>
-						<span class="icon solid major fa-dollar-sign"></span>
-						<a href="https://github.com/0NikhilSingh5/second-price-auction-bidder" target="_blank">
-							<h3>Second-Price Auction Bidding Algorithm</h3>
-							<p class="project-summary">Python-based autonomous agent for second-price auctions, using Thompson Sampling and UCB algorithms. Learns opponent strategies over time to place optimized bids that maximize long-term value. Includes comprehensive test coverage and modular design for plug-and-play simulation environments.</p>
-						</a>
-					</section>
-					<section>
-						<span class="icon solid major fa-database"></span>
-						<a href="https://github.com/0NikhilSingh5/aws-rds-kpi-monitor" target="_blank">
-							<h3>RDS Key-Performance-Indicator Report</h3>
-							<p class="project-summary">Serverless KPI reporting tool for AWS RDS, built with Lambda and CloudWatch integration. Automatically aggregates slow query logs, memory stats, and connection metrics, then sends scheduled insights via email or Slack. Designed for proactive performance tuning and database observability.</p>
-						</a>
-					</section>
-					<section>
-						<span class="icon solid major fa-terminal
-						"></span>
-						<a href="https://github.com/0NikhilSingh5/Useful-Scripts" target="_blank">
-							<h3>DevOps Script Toolkit</h3>
-							<p class="project-summary">A modular collection of Bash, PowerShell, and Python scripts solving everyday DevOps and cloud ops problems—from AWS resource automation to linting, backup, and deployment tasks. Each script is self-documented and built for plug-and-play use in CI pipelines or terminal workflows.</p>
-						</a>
-					</section>
+				<div class="projects-header">
+					<h2>Projects</h2>
+					<a href="https://github.com/0NikhilSingh5" target="_blank" class="github-header-link">
+						<span>View more</span>
+						<i class="fab fa-github"></i>
+					</a>
 				</div>
+				<br>
+				<div class="project-grid">
+					<div class="project-card">
+						<div class="project-icon">
+							<i class="fas fa-cloud"></i>
+						</div>
+						<h3>Cloud Resume</h3>
+						<p>Serverless resume site using AWS S3, CloudFront, Lambda, API Gateway, and DynamoDB with CI/CD via GitHub Actions</p>
+						<a href="https://github.com/0NikhilSingh5/aws-cloud-resume" target="_blank" class="project-link">View Project</a>
+					</div>
+
+					<div class="project-card">
+						<div class="project-icon">
+							<i class="fas fa-code-branch"></i>
+						</div>
+						<h3>Acumatica Complete CI/CD</h3>
+						<p>Automated pipeline for ERP customizations using Jenkins and Groovy with secure deployments</p>
+						<a href="https://github.com/0NikhilSingh5/acumatica_autoamted_build_publish" target="_blank" class="project-link">View Project</a>
+					</div>
+
+					<div class="project-card">
+						<div class="project-icon">
+							<i class="fas fa-cogs"></i>
+						</div>
+						<h3>IIS Configuration Manager</h3>
+						<p>PowerShell desktop tool for safe IIS website configuration with encryption and health checks</p>
+						<a href="https://github.com/0NikhilSingh5/iis-config-manager" target="_blank" class="project-link">View Project</a>
+					</div>
+
+					<div class="project-card">
+						<div class="project-icon">
+							<i class="fas fa-dollar-sign"></i>
+						</div>
+						<h3>Second-Price Auction Bidding</h3>
+						<p>Python autonomous agent using Thompson Sampling and UCB algorithms for optimized bidding</p>
+						<a href="https://github.com/0NikhilSingh5/second-price-auction-bidder" target="_blank" class="project-link">View Project</a>
+					</div>
+
+					<div class="project-card">
+						<div class="project-icon">
+							<i class="fas fa-database"></i>
+						</div>
+						<h3>RDS Performance Monitor</h3>
+						<p>Serverless KPI reporting tool with Lambda and CloudWatch integration for database monitoring</p>
+						<a href="https://github.com/0NikhilSingh5/aws-rds-kpi-monitor" target="_blank" class="project-link">View Project</a>
+					</div>
+
+					<div class="project-card">
+						<div class="project-icon">
+							<i class="fas fa-terminal"></i>
+						</div>
+						<h3>DevOps Script Toolkit</h3>
+						<p>Collection of Bash, PowerShell, and Python scripts for DevOps automation tasks</p>
+						<a href="https://github.com/0NikhilSingh5/Useful-Scripts" target="_blank" class="project-link">View Project</a>
+					</div>
+				</div>
+			</div>
 		</section>
 		<!-- ! Get in touch -->
 		<!-- ! Get in touch -->
@@ -206,10 +259,15 @@
                             <label for="name">Name</label>
                             <input type="text" name="name" id="name" placeholder="Your name" required />
                         </div>
-                        
+                        <br>
                         <div class="field half">
                             <label for="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder="Your email" required />
+                            <div class="input-container">
+                                <input type="email" name="email" id="email" placeholder="Your email" required />
+                                <div id="email-error" class="email-error-bubble" style="display: none;">
+                                    Invalid Email
+                                </div>
+                            </div>
                         </div>
 
                         <div class="field">
@@ -289,6 +347,38 @@
   if (contactForm && submitBtn) {
     console.log('Contact form elements found, attaching event');
     
+    // Email validation function
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    // Real-time email validation
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('email-error');
+    
+    if (emailInput && emailError) {
+      emailInput.addEventListener('blur', function() {
+        const email = this.value.trim();
+        if (email && !isValidEmail(email)) {
+          emailError.classList.add('show');
+        } else {
+          emailError.classList.remove('show');
+        }
+      });
+
+      emailInput.addEventListener('input', function() {
+        const email = this.value.trim();
+        if (email && isValidEmail(email)) {
+          emailError.classList.remove('show');
+        }
+      });
+
+      emailInput.addEventListener('focus', function() {
+        emailError.classList.remove('show');
+      });
+    }
+    
     submitBtn.addEventListener('click', async function() {
       console.log('Submit button clicked');
       
@@ -307,6 +397,14 @@
         formStatus.textContent = 'Please fill out all fields';
         formStatus.style.color = '#e74c3c';
         formStatus.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        return;
+      }
+
+      // Validate email format
+      if (!isValidEmail(email)) {
+        emailError.classList.add('show');
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
         return;
