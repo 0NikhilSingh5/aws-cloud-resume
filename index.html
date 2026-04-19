@@ -495,13 +495,13 @@
   // Update visitor counter
   async function updateVisitorCounter() {
     try {
-      const response = await fetch('https://api.countapi.xyz/hit/nikhil-portfolio/visits');
+      const response = await fetch('https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/visits');
       const data = await response.json();
       
       const counterElement = document.getElementById('visitor-count');
       
-      if (counterElement && data.value) {
-        counterElement.textContent = data.value;
+      if (counterElement && data.visits) {
+        counterElement.textContent = data.visits;
       }
     } catch (error) {
       console.error('Error updating visitor counter:', error);
