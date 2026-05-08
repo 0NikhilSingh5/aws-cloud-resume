@@ -1,6 +1,15 @@
-*.pdf
-
-images/*.bkp
-images/*.dtbkp
+# Editor / OS
 .vscode/settings.json
 desktop.ini
+
+
+# Sensitive infra documentation
+INFRA_OVERVIEW.md
+
+# Image backups (drawio, etc.)
+images/*.bkp
+images/*.dtbkp
+
+# PDFs in repo root (uploaded externally) — allow the resume PDF in web/public/
+*.pdf
+!web/public/*.pdf
