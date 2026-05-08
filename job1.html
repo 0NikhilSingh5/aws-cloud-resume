@@ -67,24 +67,29 @@
 				<div class="job-content">
 					<div class="work-experience">
 						<ul class="experience-list">
+							<li id="cognito">
+								<h4>Cognito Auth Platform</h4>
+								<p>Designed and operated a multi-environment authentication platform on AWS Cognito, with a pre-token-generation Lambda injecting custom claims (role, tenant id, employee id) into every JWT. Backend services verify RS256 tokens locally against cached JWKS — no per-request round-trip to Cognito while staying tamper-proof. Codified password policy, account recovery, and OAuth Authorization Code flow for the hosted UI.</p>
+							</li>
+
+							<li id="terraform">
+								<h4>Terraform Multi-Stack IaC</h4>
+								<p>Authored a modular Terraform monorepo provisioning the AWS footprint across separate stacks — auth (Cognito), networking (VPC, subnets, NAT, API Gateway), compute (EC2, RDS, Valkey, DNS) and observability — with S3-backed remote state and DynamoDB state locking. One change to a shared locals file rolls out across all four environments; lifecycle rules handle Cognito's append-only schema constraints.</p>
+							</li>
+
+							<li id="cicd">
+								<h4>ECR / ECS Fargate CI/CD</h4>
+								<p>Built a branch-gated container delivery pipeline: <code>develop</code> → dev, <code>beta</code> → beta, <code>main</code> → sandbox → manual gate → prod. The deploy script resolves environment-scoped secrets, validates required vars, builds linux/amd64 Docker images, pushes to ECR, then forces an ECS Fargate redeploy via boto3. Change-set filters keep unrelated services from rebuilding.</p>
+							</li>
+
 							<li>
 								<h4>Automated RDS Monitoring System</h4>
 								<p>Designed and deployed an intelligent monitoring system using AWS Lambda to detect high CPU utilization. Implemented dynamic slow query logging with real-time insights delivery to developers, improving troubleshooting efficiency and optimizing memory and I/O performance.</p>
 							</li>
 
 							<li>
-								<h4>Infrastructure Automation</h4>
-								<p>Automated provisioning of AWS EC2 and RDS instances using CloudFormation and Terraform. Implemented Elastic IP allocation, daily EC2 snapshot rotation, and automatic resource tagging.</p>
-							</li>
-
-							<li>
-								<h4>CI/CD Pipeline Architecture</h4>
-								<p>Architected an end-to-end CI/CD pipeline for Acumatica customization projects using Batch, PowerShell, Python, and REST APIs. Fully automated the build, backup, and deployment processes.</p>
-							</li>
-
-							<li>
-								<h4>IIS Configuration Management Tool</h4>
-								<p>Developed a user-friendly PowerShell GUI tool for IIS web configuration management. Enabled secure reading, editing, and encryption of web.config files across multiple environments.</p>
+								<h4>Acumatica CI/CD Pipeline</h4>
+								<p>Architected an end-to-end CI/CD pipeline for Acumatica ERP customization projects using Jenkins, Groovy, Batch, PowerShell, Python, and REST APIs. Fully automated the build, backup, and deployment processes with secure credential handling.</p>
 							</li>
 
 							<li>
@@ -106,7 +111,11 @@
 								<h4>Cloud Platforms</h4>
 								<div class="skill-tags">
 									<span class="skill-tag primary">AWS</span>
+									<span class="skill-tag">Cognito</span>
 									<span class="skill-tag">Lambda</span>
+									<span class="skill-tag">ECS Fargate</span>
+									<span class="skill-tag">ECR</span>
+									<span class="skill-tag">API Gateway</span>
 									<span class="skill-tag">EC2</span>
 									<span class="skill-tag">RDS</span>
 									<span class="skill-tag">S3</span>
@@ -119,24 +128,43 @@
 								<div class="skill-tags">
 									<span class="skill-tag primary">Terraform</span>
 									<span class="skill-tag">CloudFormation</span>
-									<span class="skill-tag">Automation</span>
+									<span class="skill-tag">Remote State (S3 + DynamoDB)</span>
+								</div>
+							</div>
+							<div class="skill-category">
+								<h4>Containers & CI/CD</h4>
+								<div class="skill-tags">
+									<span class="skill-tag primary">Docker</span>
+									<span class="skill-tag">Bitbucket Pipelines</span>
+									<span class="skill-tag">GitHub Actions</span>
+									<span class="skill-tag">Jenkins</span>
+									<span class="skill-tag">boto3</span>
+								</div>
+							</div>
+							<div class="skill-category">
+								<h4>Auth & Security</h4>
+								<div class="skill-tags">
+									<span class="skill-tag primary">OIDC / OAuth2</span>
+									<span class="skill-tag">JWT (RS256)</span>
+									<span class="skill-tag">JWKS</span>
+									<span class="skill-tag">IAM</span>
 								</div>
 							</div>
 							<div class="skill-category">
 								<h4>Programming & Scripting</h4>
 								<div class="skill-tags">
-									<span class="skill-tag primary">PowerShell</span>
-									<span class="skill-tag">Python</span>
+									<span class="skill-tag primary">Python</span>
+									<span class="skill-tag">PowerShell</span>
 									<span class="skill-tag">SQL</span>
-									<span class="skill-tag">Batch</span>
+									<span class="skill-tag">Bash</span>
 								</div>
 							</div>
 							<div class="skill-category">
-								<h4>Monitoring & DevOps</h4>
+								<h4>Monitoring & Ops</h4>
 								<div class="skill-tags">
 									<span class="skill-tag primary">Grafana</span>
-									<span class="skill-tag">CI/CD</span>
-									<span class="skill-tag">IIS</span>
+									<span class="skill-tag">CloudWatch</span>
+									<span class="skill-tag">OpenObserve</span>
 									<span class="skill-tag">MySQL</span>
 								</div>
 							</div>
