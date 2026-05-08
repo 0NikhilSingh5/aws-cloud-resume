@@ -322,7 +322,7 @@ def verify(token: str) -> dict:
 
 resource "aws_cognito_user_pool" "this" {
   for_each = toset(local.envs)
-  name     = "rw-userpool-\${each.key}"
+  name     = "userpool-\${each.key}"
 
   password_policy {
     minimum_length    = 8
@@ -514,10 +514,10 @@ set -euo pipefail
 
 env="$1"                                          # dev | beta | sandbox | prod
 case "$env" in
-  dev)     repo="readywire-ai-dev"     ;;
-  beta)    repo="readywire-ai-beta"    ;;
-  sandbox) repo="readywire-ai-sandbox" ;;
-  prod)    repo="readywire-ai"         ;;
+  dev)     repo="api-dev"     ;;
+  beta)    repo="api-beta"    ;;
+  sandbox) repo="api-sandbox" ;;
+  prod)    repo="api"         ;;
   *) echo "unknown env: $env"; exit 2 ;;
 esac
 
