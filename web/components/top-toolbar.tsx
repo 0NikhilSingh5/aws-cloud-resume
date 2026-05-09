@@ -7,17 +7,30 @@ import AnimatedThemeToggler from "@/components/animated-theme-toggler";
 const ENDPOINT =
   "https://3u40preuk1.execute-api.ap-south-1.amazonaws.com/prod/visits";
 
+// The Lambda increments the counter on every GET, so we only fetch once per
+// browser session. Subsequent route changes / refreshes within the same tab
+// reuse the cached value instead of re-incrementing.
+const CACHE_KEY = "visits-count";
+
 export function TopToolbar() {
   const [count, setCount] = useState<string>("…");
 
   useEffect(() => {
+    const cached =
+      typeof window !== "undefined" ? sessionStorage.getItem(CACHE_KEY) : null;
+    if (cached) {
+      setCount(cached);
+      return;
+    }
+
     let alive = true;
     fetch(ENDPOINT)
       .then((r) => r.json())
       .then((data: { visits?: number }) => {
-        if (alive && typeof data.visits === "number") {
-          setCount(data.visits.toLocaleString());
-        }
+        if (!alive || typeof data.visits !== "number") return;
+        const formatted = data.visits.toLocaleString();
+        sessionStorage.setItem(CACHE_KEY, formatted);
+        setCount(formatted);
       })
       .catch(() => {
         if (alive) setCount("—");

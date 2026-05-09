@@ -27,12 +27,19 @@ export const FlowSection: React.FC<FlowSectionProps> = ({
   <section
     data-flow-section
     aria-label={ariaLabel}
-    className={cx('relative h-screen w-full overflow-hidden', className)}
+    className={cx(
+      'relative w-full',
+      // Mobile: section grows with content, scrolls naturally before pin/rotate
+      // takes over. Desktop: locked to viewport so the card-flip stays cinematic.
+      'min-h-screen lg:h-screen lg:overflow-hidden',
+      className,
+    )}
   >
     <div
       data-flow-inner
       className={cx(
-        'flow-art-container relative flex h-full w-full flex-col justify-between gap-6 px-[4vw] pt-[clamp(2rem,6vw,3rem)] pb-[clamp(1.5rem,4vw,2rem)]',
+        'flow-art-container relative flex w-full flex-col gap-6 px-[4vw] pt-[clamp(2rem,6vw,3rem)] pb-[clamp(1.5rem,4vw,2rem)]',
+        'min-h-screen lg:h-full lg:min-h-0 lg:justify-between',
         'will-change-transform',
       )}
       style={{ transformOrigin: 'bottom left', ...style }}
