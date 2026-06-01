@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion, useAnimationControls } from "motion/react";
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xgvwvqzj";
+const CONTACT_ENDPOINT =
+  "https://qn5l9eb16a.execute-api.ap-south-1.amazonaws.com/prod/contact";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SHAKE_KEYFRAMES = {
   x: [-10, 10, -8, 8, -4, 0],
@@ -84,20 +85,31 @@ export function ContactForm() {
     setStatus("sending");
     setErrorMsg("");
 
+    const message = String(data.get("message") ?? "");
+
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
       });
-      if (res.ok) {
+
+      const raw = (await res.json().catch(() => null)) as
+        | { statusCode?: number; body?: string; success?: boolean; message?: string }
+        | null;
+      // Unwrap non-proxy API Gateway responses where the Lambda's
+      // {statusCode, body} object is returned verbatim.
+      const unwrapped =
+        raw && typeof raw.body === "string"
+          ? (JSON.parse(raw.body) as { success?: boolean; message?: string })
+          : raw;
+      const ok = res.ok && (raw?.statusCode ?? res.status) < 400 && unwrapped?.success !== false;
+
+      if (ok) {
         setStatus("success");
         form.reset();
       } else {
-        const json = (await res.json().catch(() => null)) as
-          | { errors?: { message: string }[] }
-          | null;
-        setErrorMsg(json?.errors?.[0]?.message ?? "Could not send message.");
+        setErrorMsg(unwrapped?.message ?? "Could not send message.");
         setStatus("error");
       }
     } catch {
