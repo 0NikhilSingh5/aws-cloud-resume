@@ -200,89 +200,44 @@
    single fluid value scales the whole card. It is min(vw, vh) because desktop
    sections are h-screen + overflow-hidden — on a short laptop the limit is
    height, not width, which is what forced zooming out to make things fit.
+
+   No moving highlight: the card just lifts on hover and presses in on click.
    ────────────────────────────────────────────────────────────────────── */
 .glass {
   position: relative;
-  isolation: isolate;
   font-size: clamp(0.78rem, min(0.95vw, 1.6vh), 1.05rem);
   border-radius: 1.15em;
   padding: 1.35em 1.4em;
   background-color: color-mix(in srgb, currentColor 8%, transparent);
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, currentColor 18%, transparent),
+    inset 0 1px 0 color-mix(in srgb, currentColor 14%, transparent),
     0 18px 40px -24px rgba(0, 0, 0, 0.6);
   transition:
-    transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
-    background-color 0.35s ease,
-    box-shadow 0.35s ease;
+    transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-/* The edge light. --sheen is a single angle shared by every card on the page,
-   updated from the direction the pointer is travelling (see EdgeLight), so all
-   the cards catch the light from the same side at once — the way a real light
-   source moving past a sheet of glass behaves. A gradient along that angle over
-   a masked 1px border means the leading edge lights up and the trailing one
-   stays dark. */
-.glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    var(--sheen, 135deg),
-    color-mix(in srgb, currentColor 85%, transparent) 0%,
-    color-mix(in srgb, currentColor 30%, transparent) 22%,
-    color-mix(in srgb, currentColor 10%, transparent) 48%,
-    color-mix(in srgb, currentColor 26%, transparent) 100%
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  /* no transition on the gradient itself: the angle is already smoothed in JS,
-     and animating it here would lag behind the pointer */
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-}
-
-/* A soft bloom just inside the lit edge, so the light looks like it falls onto
-   the face rather than only outlining it. */
-.glass::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(
-    var(--sheen, 135deg),
-    color-mix(in srgb, currentColor 14%, transparent) 0%,
-    transparent 38%
-  );
-  opacity: 0.75;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-}
-
-/* hover:hover so a tap on a phone does not leave the state stuck on */
+/* hover:hover so a tap on a phone does not leave the lift stuck on */
 @media (hover: hover) {
   .glass:hover {
-    background-color: color-mix(in srgb, currentColor 13%, transparent);
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+    border-color: color-mix(in srgb, currentColor 30%, transparent);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, currentColor 26%, transparent),
-      0 26px 56px -26px rgba(0, 0, 0, 0.7);
+      inset 0 1px 0 color-mix(in srgb, currentColor 22%, transparent),
+      0 26px 52px -26px rgba(0, 0, 0, 0.7);
   }
-  .glass:hover::after {
-    opacity: 1;
-  }
+}
+
+/* the press: settles back down and shrinks a hair, so a click feels physical */
+.glass:active {
+  transform: translateY(-1px) scale(0.994);
+  transition-duration: 0.08s;
 }
 
 .glass:focus-visible {
@@ -291,12 +246,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .glass,
-  .glass::before,
-  .glass::after {
+  .glass {
     transition: none;
   }
-  .glass:hover {
+  .glass:hover,
+  .glass:active {
     transform: none;
   }
 }

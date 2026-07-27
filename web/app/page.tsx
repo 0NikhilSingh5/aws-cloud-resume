@@ -2,7 +2,6 @@ import { Github, Linkedin, Instagram, Twitter, Download } from "lucide-react";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import { ContactForm } from "@/components/contact-form";
 import { GlassCard } from "@/components/glass-card";
-import { EdgeLight } from "@/components/edge-light";
 import { TopToolbar } from "@/components/top-toolbar";
 import { MiniFooter } from "@/components/mini-footer";
 import { ResetScrollOnLoad } from "@/components/reset-scroll-on-load";
@@ -66,7 +65,6 @@ export default function Home() {
   return (
     <>
       <ResetScrollOnLoad />
-      <EdgeLight />
       <TopToolbar />
 
       <FlowArt aria-label="Nikhil Singh — portfolio">
@@ -261,13 +259,15 @@ export default function Home() {
           <div className="flex min-h-0 flex-1 items-center">
             {/* the old 182px logo tiles plus 115px row gaps could not fit six of
                 anything on a laptop; the badge is now em-sized like everything else */}
-            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mx-auto grid w-full max-w-5xl grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3">
               {certs.map((c) => (
-                <div key={c.id} className={c.id === "CO0101EN" ? "relative" : undefined}>
-                  <GlassCard href={c.url} className="!flex-row items-center gap-[1.1em]">
+                <div key={c.id} className={c.id === "ZQJZ42BKRMEE1P9N" ? "relative" : undefined}>
+                  {/* stacked rather than side by side: a wide row leaves the badge
+                      a thumbnail, and the badge is the thing worth looking at */}
+                  <GlassCard href={c.url} className="items-center justify-center gap-[0.15em] text-center">
                     {/* the badges are full-colour artwork, so they keep a white
                         plate to sit on — they would disappear into the glass */}
-                    <div className="flex h-[4.6em] w-[4.6em] shrink-0 items-center justify-center rounded-[0.7em] bg-white p-[0.55em] ring-1 ring-black/10">
+                    <div className="flex aspect-square w-[62%] max-w-[11em] items-center justify-center rounded-[1em] bg-white p-[0.85em] ring-1 ring-black/10">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={c.logo}
@@ -275,16 +275,14 @@ export default function Home() {
                         className="h-full w-full object-contain"
                       />
                     </div>
-                    <div className="flex min-w-0 flex-col">
-                      <h3 className="text-[1em] font-bold leading-snug underline-offset-4 group-hover:underline">
-                        {c.title}
-                      </h3>
-                      <p className="mt-[0.35em] text-[0.86em] font-medium opacity-70">
-                        {c.issuer}
-                      </p>
-                    </div>
+                    <h3 className="mt-[1.05em] text-[0.98em] font-bold leading-snug underline-offset-4 group-hover:underline">
+                      {c.title}
+                    </h3>
+                    <p className="mt-auto pt-[0.45em] text-[0.85em] font-medium opacity-70">
+                      {c.issuer}
+                    </p>
                   </GlassCard>
-                  {c.id === "CO0101EN" && (
+                  {c.id === "ZQJZ42BKRMEE1P9N" && (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src="/images/cofeeguy.png"
@@ -292,9 +290,9 @@ export default function Home() {
                       aria-hidden
                       className="pointer-events-none absolute hidden select-none xl:block"
                       style={{
-                        right: "calc(100% - 30px)",
-                        bottom: "-24px",
-                        height: "min(300px, 34vh)",
+                        right: "calc(100% + 10px)",
+                        bottom: "-10px",
+                        height: "min(260px, 30vh)",
                         width: "auto",
                         filter:
                           "drop-shadow(0 14px 20px rgba(0,0,0,0.42)) drop-shadow(0 42px 76px rgba(0,0,0,0.77))",
