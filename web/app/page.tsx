@@ -2,6 +2,7 @@ import { Github, Linkedin, Instagram, Twitter, Download } from "lucide-react";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import { ContactForm } from "@/components/contact-form";
 import { GlassCard } from "@/components/glass-card";
+import { EdgeLight } from "@/components/edge-light";
 import { TopToolbar } from "@/components/top-toolbar";
 import { MiniFooter } from "@/components/mini-footer";
 import { ResetScrollOnLoad } from "@/components/reset-scroll-on-load";
@@ -65,6 +66,7 @@ export default function Home() {
   return (
     <>
       <ResetScrollOnLoad />
+      <EdgeLight />
       <TopToolbar />
 
       <FlowArt aria-label="Nikhil Singh — portfolio">
@@ -178,56 +180,56 @@ export default function Home() {
           <div className="flex min-h-0 flex-1 items-center">
             <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
               <GlassCard href="/enetro">
-                <div className="mb-5 flex h-12 items-center">
+                <div className="mb-[1.1em] flex h-[3.1em] items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/Enetro_logo.svg"
                     alt="Enetro AI"
-                    className="h-11 w-auto object-contain"
+                    className="max-h-full w-auto object-contain"
                   />
                 </div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] opacity-60">
+                <p className="text-[0.82em] font-semibold uppercase tracking-[0.2em] opacity-60">
                   2026 — Present
                 </p>
-                <h3 className="mt-4 text-2xl font-bold underline-offset-4 group-hover:underline md:text-3xl">Cloud Engineer</h3>
-                <p className="mt-2 text-lg opacity-90">Enetro AI</p>
-                <p className="mt-3 text-sm opacity-60">India</p>
+                <h3 className="mt-[0.7em] text-[1.55em] font-bold leading-tight underline-offset-4 group-hover:underline">Cloud Engineer</h3>
+                <p className="mt-[0.5em] text-[1.02em] opacity-90">Enetro AI</p>
+                <p className="mt-[0.7em] text-[0.85em] opacity-60">India</p>
               </GlassCard>
               <GlassCard href="/readywire">
-                <div className="mb-5 flex h-12 items-center">
+                <div className="mb-[1.1em] flex h-[3.1em] items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/Readywire_full_logo.png"
                     alt="Readywire"
-                    className="h-11 w-auto object-contain"
+                    className="max-h-full w-auto object-contain"
                   />
                 </div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] opacity-60">
+                <p className="text-[0.82em] font-semibold uppercase tracking-[0.2em] opacity-60">
                   June 2023 — 2026
                 </p>
-                <h3 className="mt-4 text-2xl font-bold underline-offset-4 group-hover:underline md:text-3xl">
+                <h3 className="mt-[0.7em] text-[1.55em] font-bold leading-tight underline-offset-4 group-hover:underline">
                   Associate Solutions Architect
                 </h3>
-                <p className="mt-2 text-lg opacity-90">Readywire Pvt. Ltd.</p>
-                <p className="mt-3 text-sm opacity-60">India</p>
+                <p className="mt-[0.5em] text-[1.02em] opacity-90">Readywire Pvt. Ltd.</p>
+                <p className="mt-[0.7em] text-[0.85em] opacity-60">India</p>
               </GlassCard>
               <GlassCard href="/tcs">
-                <div className="mb-5 flex h-12 items-center">
+                <div className="mb-[1.1em] flex h-[3.1em] items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/TCS_new.png"
                     alt="TATA Consultancy Services"
-                    className="h-11 w-auto object-contain"
+                    className="max-h-full w-auto object-contain"
                   />
                 </div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] opacity-60">
+                <p className="text-[0.82em] font-semibold uppercase tracking-[0.2em] opacity-60">
                   August 2021 — June 2023
                 </p>
-                <h3 className="mt-4 text-2xl font-bold underline-offset-4 group-hover:underline md:text-3xl">Associate Engineer</h3>
-                <p className="mt-2 text-lg opacity-90">
+                <h3 className="mt-[0.7em] text-[1.55em] font-bold leading-tight underline-offset-4 group-hover:underline">Associate Engineer</h3>
+                <p className="mt-[0.5em] text-[1.02em] opacity-90">
                   TATA Consultancy Services
                 </p>
-                <p className="mt-3 text-sm opacity-60">India</p>
+                <p className="mt-[0.7em] text-[0.85em] opacity-60">India</p>
               </GlassCard>
             </div>
           </div>
@@ -257,57 +259,50 @@ export default function Home() {
           </div>
           <hr className="border-none border-t border-current opacity-30" />
           <div className="flex min-h-0 flex-1 items-center">
-            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-x-[40px] gap-y-[115px] sm:grid-cols-2 lg:grid-cols-3">
-              {certs.map((c) => {
-                const isDocker = c.id === "CO0101EN";
-                return (
-                  <div
-                    key={c.id}
-                    className={isDocker ? "relative" : undefined}
-                  >
-                    <a
-                      href={c.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-6"
-                    >
-                      <div className="flex h-[182px] w-[182px] shrink-0 items-center justify-center rounded-md bg-white p-[18px] ring-1 ring-black/10">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={c.logo}
-                          alt={c.issuer}
-                          className="h-full w-full object-contain"
-                        />
-                      </div>
-                      <div className="flex min-w-0 flex-col">
-                        <h3 className="text-base font-bold leading-snug underline-offset-4 group-hover:underline md:text-lg">
-                          {c.title}
-                        </h3>
-                        <p className="mt-1 text-sm font-medium opacity-70">
-                          {c.issuer}
-                        </p>
-                      </div>
-                    </a>
-                    {isDocker && (
-                      /* eslint-disable-next-line @next/next/no-img-element */
+            {/* the old 182px logo tiles plus 115px row gaps could not fit six of
+                anything on a laptop; the badge is now em-sized like everything else */}
+            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {certs.map((c) => (
+                <div key={c.id} className={c.id === "CO0101EN" ? "relative" : undefined}>
+                  <GlassCard href={c.url} className="!flex-row items-center gap-[1.1em]">
+                    {/* the badges are full-colour artwork, so they keep a white
+                        plate to sit on — they would disappear into the glass */}
+                    <div className="flex h-[4.6em] w-[4.6em] shrink-0 items-center justify-center rounded-[0.7em] bg-white p-[0.55em] ring-1 ring-black/10">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src="/images/cofeeguy.png"
-                        alt=""
-                        aria-hidden
-                        className="pointer-events-none absolute hidden select-none lg:block"
-                        style={{
-                          right: "calc(100% - 64px)",
-                          bottom: "-80px",
-                          height: "340px",
-                          width: "auto",
-                          filter:
-                            "drop-shadow(0 14px 20px rgba(0,0,0,0.42)) drop-shadow(0 42px 76px rgba(0,0,0,0.77))",
-                        }}
+                        src={c.logo}
+                        alt={c.issuer}
+                        className="h-full w-full object-contain"
                       />
-                    )}
-                  </div>
-                );
-              })}
+                    </div>
+                    <div className="flex min-w-0 flex-col">
+                      <h3 className="text-[1em] font-bold leading-snug underline-offset-4 group-hover:underline">
+                        {c.title}
+                      </h3>
+                      <p className="mt-[0.35em] text-[0.86em] font-medium opacity-70">
+                        {c.issuer}
+                      </p>
+                    </div>
+                  </GlassCard>
+                  {c.id === "CO0101EN" && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src="/images/cofeeguy.png"
+                      alt=""
+                      aria-hidden
+                      className="pointer-events-none absolute hidden select-none xl:block"
+                      style={{
+                        right: "calc(100% - 30px)",
+                        bottom: "-24px",
+                        height: "min(300px, 34vh)",
+                        width: "auto",
+                        filter:
+                          "drop-shadow(0 14px 20px rgba(0,0,0,0.42)) drop-shadow(0 42px 76px rgba(0,0,0,0.77))",
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </FlowSection>
@@ -366,15 +361,15 @@ export default function Home() {
             <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((p) => (
                 <GlassCard key={p.title} href={p.href}>
-                  <h3 className="text-base font-bold uppercase tracking-wider underline-offset-4 group-hover:underline md:text-lg">
+                  <h3 className="text-[1.12em] font-bold uppercase leading-snug tracking-wider underline-offset-4 group-hover:underline">
                     {p.title}
                   </h3>
-                  <p className="mt-3 text-[clamp(0.72rem,0.95vw,0.91rem)] leading-relaxed opacity-85">
+                  <p className="mt-[0.9em] text-[0.95em] leading-relaxed opacity-85">
                     {p.blurb}
                   </p>
                   {/* mt-auto pins the tags to the bottom, so cards of differing
                       blurb length still line their tag rows up across the grid */}
-                  <div className="mt-auto flex flex-wrap gap-x-2 gap-y-1 pt-5 text-xs font-medium uppercase tracking-wider opacity-60 md:text-sm">
+                  <div className="mt-auto flex flex-wrap gap-x-[0.5em] gap-y-[0.2em] pt-[1.3em] text-[0.82em] font-medium uppercase tracking-wider opacity-60">
                     {p.tags.map((t, i) => (
                       <span key={t}>
                         {t}
