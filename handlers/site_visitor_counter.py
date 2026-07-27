@@ -10,6 +10,26 @@ logger.setLevel(logging.INFO)
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('VisitorCounter')
 
+# The site moved from resume.codenickk.com to the apex, and a single hardcoded origin meant every
+# browser on the new domain had its response blocked by CORS. Reflect the caller's origin when it
+# is one of ours — never a bare '*', which would let any site drive the counter up.
+ALLOWED_ORIGINS = {
+    'https://codenickk.com',
+    'https://resume.codenickk.com',   # still 301s to the apex; harmless to keep allowed
+}
+
+
+def _cors(event):
+    headers = (event or {}).get('headers') or {}
+    # API Gateway does not normalise header case, so look for either
+    origin = headers.get('origin') or headers.get('Origin') or ''
+    allowed = origin if origin in ALLOWED_ORIGINS else 'https://codenickk.com'
+    return {
+        'Access-Control-Allow-Origin': allowed,
+        'Vary': 'Origin',   # so a cache cannot hand one origin's header to another
+    }
+
+
 def lambda_handler(event, context):
     """
     AWS Lambda function to handle HTTP requests and update a visitor counter in a DynamoDB table.
@@ -34,9 +54,10 @@ def lambda_handler(event, context):
     
     Notes:
         - The function assumes the existence of a DynamoDB table with a key 'WebsiteVisits' and an attribute 'visits'.
-        - CORS headers are configured to allow requests from 'https://resume.codenickk.com'.
+        - CORS headers reflect the caller's origin when it is in ALLOWED_ORIGINS.
         - The visitor count is incremented by 1 for each non-OPTIONS request.
     """
+    cors = _cors(event)
     try:
         # Handle OPTIONS preflight request for CORS
         # This is necessary for browsers to validate cross-origin requests
@@ -44,7 +65,7 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 200,
                 'headers': {
-                    'Access-Control-Allow-Origin': 'https://resume.codenickk.com',
+                    **cors,
                     'Access-Control-Allow-Methods': 'GET,OPTIONS',
                     'Access-Control-Allow-Headers': 'Content-Type'
                 }
@@ -66,7 +87,7 @@ def lambda_handler(event, context):
         return {
             'statusCode': 200,
             'headers': {
-                'Access-Control-Allow-Origin': 'https://resume.codenickk.com',
+                **cors,
                 'Content-Type': 'application/json'
             },
             'body': json.dumps({'visits': visitor_count})
@@ -79,8 +100,6 @@ def lambda_handler(event, context):
         # Return error response to client
         return {
             'statusCode': 500,
-            'headers': {
-                'Access-Control-Allow-Origin': 'https://resume.codenickk.com'
-            },
+            'headers': cors,
             'body': json.dumps({'error': 'Internal Server Error'})
         }
