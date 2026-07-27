@@ -142,10 +142,10 @@ export function ContactForm() {
         </div>
         <motion.div
           animate={nameControls}
-          className={`mt-2 mb-5 flex h-12 items-center overflow-hidden rounded-full border pl-4 transition-colors ${
+          className={`mt-2 mb-5 flex h-12 items-center overflow-hidden pl-4 ${
             nameError
-              ? "border-red-400/70 focus-within:ring-2 focus-within:ring-red-400/60"
-              : "border-white/30 focus-within:ring-2 focus-within:ring-white/60"
+              ? "rounded-full border border-red-400/70 focus-within:ring-2 focus-within:ring-red-400/60"
+              : "glass-field"
           }`}
         >
           <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
@@ -185,10 +185,10 @@ export function ContactForm() {
         </div>
         <motion.div
           animate={emailControls}
-          className={`mt-2 mb-5 flex h-12 items-center overflow-hidden rounded-full border pl-4 transition-colors ${
+          className={`mt-2 mb-5 flex h-12 items-center overflow-hidden pl-4 ${
             emailError
-              ? "border-red-400/70 focus-within:ring-2 focus-within:ring-red-400/60"
-              : "border-white/30 focus-within:ring-2 focus-within:ring-white/60"
+              ? "rounded-full border border-red-400/70 focus-within:ring-2 focus-within:ring-red-400/60"
+              : "glass-field"
           }`}
         >
           <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
@@ -219,7 +219,7 @@ export function ContactForm() {
           id="message"
           name="message"
           rows={5}
-          className="mt-2 w-full resize-none rounded-2xl border border-white/30 bg-transparent p-4 text-base outline-none transition-all focus:ring-2 focus:ring-white/60"
+          className="glass-field mt-2 w-full resize-none !rounded-2xl p-4 text-base outline-none"
           placeholder="Type your message here!"
           required
         />

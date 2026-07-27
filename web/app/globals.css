@@ -188,6 +188,139 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ──────────────────────────────────────────────────────────────────────
+   Frosted glass cards.
+
+   Every panel these appear on (2 Experience, 4 Projects, 5 Contact) is dark in
+   BOTH themes — #636A6E/#050505, #3a4cb8/#060f30, #34322d/#050505 — so one white
+   tint reads correctly everywhere and needs no per-theme override.
+
+   --mx/--my are the pointer position, written by GlassCard. Without JS they stay
+   at 50% and the card is simply a static frosted panel, so this degrades cleanly.
+   ────────────────────────────────────────────────────────────────────── */
+.glass {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+  border-radius: 1.25rem;
+  /* padding scales with the viewport, which is what lets one card work from a
+     360px phone up to a 3-across desktop grid without a breakpoint each */
+  padding: clamp(1.15rem, 1.6vw, 1.85rem);
+  background-color: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 18px 40px -24px rgba(0, 0, 0, 0.75);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* The rim. A 1px gradient border via the mask-exclude trick, brightest nearest
+   the pointer — this is the part that reads as light catching a glass edge. */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    62% 62% at var(--mx) var(--my),
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.24) 42%,
+    rgba(255, 255, 255, 0.1) 72%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.45;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* The specular bloom that follows the cursor across the face. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    42% 58% at var(--mx) var(--my),
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* hover:hover so a touch device does not get a highlight stuck on after a tap */
+@media (hover: hover) {
+  .glass:hover {
+    background-color: rgba(255, 255, 255, 0.11);
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 26px 56px -26px rgba(0, 0, 0, 0.85);
+  }
+  .glass:hover::before,
+  .glass:hover::after {
+    opacity: 1;
+  }
+}
+
+.glass:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass,
+  .glass::before,
+  .glass::after {
+    transition: none;
+  }
+  .glass:hover {
+    transform: none;
+  }
+}
+
+/* Form fields are the same material, just flatter — they sit inside a panel
+   rather than floating on it, so they get no lift and a quieter rim. */
+.glass-field {
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.glass-field:hover {
+  background-color: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.glass-field:focus-within {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

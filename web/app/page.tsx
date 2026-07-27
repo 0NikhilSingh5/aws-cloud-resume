@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { Github, Linkedin, Instagram, Twitter, Download } from "lucide-react";
 import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 import { ContactForm } from "@/components/contact-form";
+import { GlassCard } from "@/components/glass-card";
 import { TopToolbar } from "@/components/top-toolbar";
 import { MiniFooter } from "@/components/mini-footer";
 import { ResetScrollOnLoad } from "@/components/reset-scroll-on-load";
@@ -176,9 +176,9 @@ export default function Home() {
           </div>
           <hr className="border-none border-t border-current opacity-30" />
           <div className="flex min-h-0 flex-1 items-center">
-            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-x-14 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-              <Link href="/enetro" className="group flex flex-col">
-                <div className="mb-6 flex h-14 items-center">
+            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              <GlassCard href="/enetro">
+                <div className="mb-5 flex h-12 items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/Enetro_logo.svg"
@@ -192,9 +192,9 @@ export default function Home() {
                 <h3 className="mt-4 text-2xl font-bold underline-offset-4 group-hover:underline md:text-3xl">Cloud Engineer</h3>
                 <p className="mt-2 text-lg opacity-90">Enetro AI</p>
                 <p className="mt-3 text-sm opacity-60">India</p>
-              </Link>
-              <Link href="/readywire" className="group flex flex-col">
-                <div className="mb-6 flex h-14 items-center">
+              </GlassCard>
+              <GlassCard href="/readywire">
+                <div className="mb-5 flex h-12 items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/Readywire_full_logo.png"
@@ -210,9 +210,9 @@ export default function Home() {
                 </h3>
                 <p className="mt-2 text-lg opacity-90">Readywire Pvt. Ltd.</p>
                 <p className="mt-3 text-sm opacity-60">India</p>
-              </Link>
-              <Link href="/tcs" className="group flex flex-col">
-                <div className="mb-6 flex h-14 items-center">
+              </GlassCard>
+              <GlassCard href="/tcs">
+                <div className="mb-5 flex h-12 items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/TCS_new.png"
@@ -228,7 +228,7 @@ export default function Home() {
                   TATA Consultancy Services
                 </p>
                 <p className="mt-3 text-sm opacity-60">India</p>
-              </Link>
+              </GlassCard>
             </div>
           </div>
         </FlowSection>
@@ -361,19 +361,20 @@ export default function Home() {
           </div>
           <hr className="my-4 border-none border-t border-current opacity-30 lg:my-8" />
           <div className="flex min-h-0 flex-1 items-center pt-4 lg:pt-8">
-            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-x-14 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((p) => {
-              const external = p.href.startsWith("http");
-              const linkClass = "group flex flex-col";
-              const inner = (
-                <>
+            {/* gaps are tighter than before: the cards now carry their own padding,
+                so the old 14-unit gutters would read as drifting apart */}
+            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((p) => (
+                <GlassCard key={p.title} href={p.href}>
                   <h3 className="text-base font-bold uppercase tracking-wider underline-offset-4 group-hover:underline md:text-lg">
                     {p.title}
                   </h3>
-                  <p className="mt-4 text-[clamp(0.6rem,1vw,0.91rem)] leading-relaxed opacity-85">
+                  <p className="mt-3 text-[clamp(0.72rem,0.95vw,0.91rem)] leading-relaxed opacity-85">
                     {p.blurb}
                   </p>
-                  <div className="mt-5 flex flex-wrap gap-2 text-sm font-medium uppercase tracking-wider opacity-60">
+                  {/* mt-auto pins the tags to the bottom, so cards of differing
+                      blurb length still line their tag rows up across the grid */}
+                  <div className="mt-auto flex flex-wrap gap-x-2 gap-y-1 pt-5 text-xs font-medium uppercase tracking-wider opacity-60 md:text-sm">
                     {p.tags.map((t, i) => (
                       <span key={t}>
                         {t}
@@ -381,24 +382,8 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                </>
-              );
-              return external ? (
-                <a
-                  key={p.title}
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={linkClass}
-                >
-                  {inner}
-                </a>
-              ) : (
-                <Link key={p.title} href={p.href} className={linkClass}>
-                  {inner}
-                </Link>
-              );
-            })}
+                </GlassCard>
+              ))}
             </div>
           </div>
         </FlowSection>
