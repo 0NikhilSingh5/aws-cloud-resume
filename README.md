@@ -1,88 +1,137 @@
-# 🌩️ Cloud Resume Challenge
+# aws-cloud-resume
 
-Welcome to my Cloud Resume Challenge! This project follows the structure outlined by Forrest Brazeal and demonstrates my expertise in AWS cloud services, automation, and CI/CD.
-## 🏗️ Architecture Diagnostic
-<img title="a title" alt="Alt text" src="/images/CRC-archdiagram.jpg">
+The [Cloud Resume Challenge](https://cloudresumechallenge.dev/), built on AWS and still running.
+Live at **[codenickk.com](https://codenickk.com)**.
 
-## 🚀 Project Overview
-This project consists of a personal resume website hosted entirely on AWS. The stack includes:
-- **Frontend:** HTML, CSS, JavaScript (deployed on AWS S3 and served via CloudFront)
-- **Backend:** AWS Lambda, API Gateway, and DynamoDB to track visitor count
-- **CI/CD:** GitHub Actions for automated deployment
+A statically-exported Next.js site on S3 behind CloudFront, plus two Python Lambdas behind API
+Gateway — a DynamoDB visitor counter and an SES contact form. Push to `master` and GitHub Actions
+builds, syncs and invalidates. Default branch is **`master`**.
 
-## 🛠️ Technologies Used
-- **AWS Services:** S3, CloudFront, API Gateway, Lambda, DynamoDB, IAM
-- **CI/CD:** GitHub Actions
-- **Programming Languages:** JavaScript, Python
-- **Security & Monitoring:** IAM roles, CloudWatch, AWS Secrets Manager
+## Architecture
 
-## 📜 Features
-- **Static Website Hosting:** The resume is hosted on **AWS S3** and served via **CloudFront** for fast content delivery.
-- **Visitor Counter:** A **serverless backend** using **AWS Lambda + API Gateway + DynamoDB** tracks and displays visitor count.
-- **CI/CD Pipeline:** **GitHub Actions** automatically deploys changes to **S3** and invalidates the **CloudFront** cache.
-- **Security Best Practices:** IAM roles for least-privileged access, HTTPS enforcement via CloudFront.
+```mermaid
+flowchart TD
+    visitor["Visitor"]
 
-## 📂 Project Structure
-```
-📁 aws-cloud-resume
- ├── 📁 .github/workflows
- |    └── 📄 deploy.yml             #GitHub Actions workflow for CI/CD
- ├── 📁 assets
- |   ├── 📁 css
- |   |   ├── 📄 main.css             #Main CSS-style
- |   |   ├── 📄 nonscript.css
- |   |   └── 📄 fontawesome-all.min.css
- |   ├── 📁 js
- |   |   └── 📄 main.js              #Main JS-script
- |   └──  📁 webfonts
- |
- ├── 📁 backend
- │   └── 📄 handler.py               #AWS Lambda function
- |
- ├── 📁 images                       #All Image related to site
- |
- ├── 📄 index.html                   # Main resume page
- ├── 📄 job1.html                     
- ├── 📄 job2.html
- │   
- 📜 README.md                       # Project documentation
+    subgraph edge["Edge"]
+        cf["CloudFront"]
+        fn["CloudFront Function: url-rewrite"]
+    end
+
+    subgraph site["Static site"]
+        s3[("S3: nikhilsresumebucket")]
+    end
+
+    subgraph api["Serverless API - outside the pipeline"]
+        apigw["API Gateway"]
+        counter["Lambda: site_visitor_counter.py"]
+        contact["Lambda: send_message.py"]
+        ddb[("DynamoDB: VisitorCounter")]
+        ses["SES"]
+    end
+
+    subgraph ci["CI/CD"]
+        gha["GitHub Actions on push to master"]
+    end
+
+    visitor --> cf
+    cf --> fn
+    fn --> s3
+    visitor --> apigw
+    apigw --> counter
+    counter --> ddb
+    apigw --> contact
+    contact --> ses
+    gha -->|"next build, sync out/"| s3
+    gha -->|"invalidate /*"| cf
 ```
 
-## 🔧 Setup and Deployment
-### 1️⃣ Clone the Repository
+## Stack
+
+| Layer | What |
+|---|---|
+| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind v4, shadcn `base-nova`, GSAP + Motion |
+| Hosting | S3 with an OAC'd REST origin, CloudFront, one CloudFront Function for routing |
+| Backend | Python Lambdas behind API Gateway, DynamoDB, SES |
+| CI/CD | GitHub Actions — Node 22, build and sync on push to `master`, region `ap-south-1` |
+
+## Layout
+
+```
+aws-cloud-resume
+├── web/                        Next.js app — the whole frontend
+│   ├── app/                    App Router pages; static export to web/out/
+│   ├── components/             visitor-counter.tsx, contact-form.tsx, UI
+│   └── lib/projects.ts         all project content, as a typed Project[]
+├── handlers/
+│   ├── site_visitor_counter.py DynamoDB counter, CORS via an origin allowlist
+│   └── send_message.py         contact form, sends through SES
+├── infra/cloudfront/           CloudFront Function attach procedure
+└── .github/workflows/deploy.yml
+```
+
+`web/lib/projects.ts` is the single source of project content — `generateStaticParams()` builds
+`/projects/<slug>` from it, so a new project is a new entry there and nothing else.
+
+The Lambdas are **not in the pipeline**. There is no packaging or deploy step for them: edit the
+file here, upload to Lambda by hand, keep the two copies in sync.
+
+## Running it
+
+Everything npm runs in `web/`:
+
 ```sh
-git clone https://github.com/0NikhilSingh5/aws-cloud-resume.git
-cd cloud-resume-challenge
+npm ci
+npm run dev      # localhost:3000
+npm run build    # emits web/out/
+npm run lint
 ```
 
-### 2️⃣ Deploy Frontend
+There are no tests. `npm start` is meaningless for a static export — don't reach for it.
+
+## Deploying
+
+Push to `master`. [`deploy.yml`](.github/workflows/deploy.yml) builds `web/` and syncs it. The
+manual equivalent, from the repo root:
+
 ```sh
-aws s3 sync . s3://your-resume-bucket --delete
+aws s3 sync web/out/ s3://nikhilsresumebucket --delete \
+  --exclude "__next.*" \
+  --exclude "apps/*"
+
+aws cloudfront create-invalidation --distribution-id E1PNSO5QUYT69 --paths "/*"
 ```
 
-### 3️⃣ CI/CD via GitHub Actions
-- Push changes to the `master` branch to trigger the deployment workflow (`deploy.yml`).
+Two things about that command are load-bearing:
 
-## 🌐 Live Demo
-You can view the live version of my Cloud Resume here: [resume.codenickk.com](https://resume.codenickk.com)
+- **`--exclude "apps/*"` must stay.** `apps.codenickk.com` is served from the `apps/` prefix of
+  this same bucket — it has to be, because that host shares the distribution's default cache
+  behaviour with the apex and a behaviour has exactly one origin. This build knows nothing about
+  `apps/`, so `--delete` reads the whole prefix as stray and removes it. That took the apps index
+  down twice in one day, and the bucket has no versioning to restore from.
+- **The `url-rewrite` CloudFront Function must stay published.** A static export emits
+  `<route>/index.html`, and an OAC'd S3 REST origin answers **403, not 404**, for a missing key —
+  so without the rewrite filling in `index.html`, every subroute 403s instead of falling back.
 
-## 📜 Lessons Learned
-- **Serverless Architectures**: Implementing API Gateway + Lambda + DynamoDB
-- **CI/CD Automation**: Leveraging GitHub Actions for automatic deployments
-- **Security Best Practices**: IAM role configurations, CloudFront HTTPS enforcement
+The copy of `url-rewrite.js` in `infra/cloudfront/` is a **reference copy and is stale**. The
+authoritative source of the deployed function lives with the `apps.codenickk.com` landing page;
+publishing this one silently breaks that host and the `resume.codenickk.com` redirect.
 
-## 🎯 Future Enhancements
-- Implement user authentication using Cognito
-- Add a contact form with SES email integration
-- Enhance UI with modern JavaScript frameworks (React/Vue)
+## Notes
 
-## 🏆 Acknowledgments
-- **Forrest Brazeal** for the Cloud Resume Challenge inspiration
-- AWS documentation & community for support
+- Bucket, distribution ID, region and the two API Gateway endpoints are hardcoded and committed
+  deliberately — there are no environment variables and no secrets in this repo. The only secrets
+  are the two AWS keys in GitHub Actions.
+- The contact form's API Gateway integration is **non-proxy**, so `contact-form.tsx` unwraps a
+  `{statusCode, body}` envelope. Simplifying that away means changing the integration first.
+- `site_visitor_counter.py` reflects the request origin from an explicit allowlist rather than
+  `*`. Adding a domain means editing the set and re-uploading the function.
+- `resume.codenickk.com` 301s to the apex and must keep doing so — that URL is in job
+  applications already sent.
 
----
-🙌 Thanks for checking out my Cloud Resume Challenge! If you have any feedback or suggestions, feel free to reach out.
+## Credit
 
----
-This whole project is a challenge by Forrest Brazeal, Check out his socials here: <br>
-[![Forrest Brazeal](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/forrestbrazeal)&nbsp;&nbsp; [![Forrest Brazeal](https://img.shields.io/badge/GitHub-black.svg?logo=github&logoColor=white)](https://github.com/forrestbrazeal)&nbsp;&nbsp;
+The challenge itself is [Forrest Brazeal](https://cloudresumechallenge.dev/)'s.
+
+[![X](https://img.shields.io/badge/X-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/forrestbrazeal)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/forrestbrazeal)
