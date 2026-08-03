@@ -48,8 +48,33 @@ jobs:
           --exclude "apps/*" \
           --exclude "fuelmeter/*"
 
-    - name: Invalidate CloudFront Cache
+    - name: Invalidate CloudFront cache and wait for it
       run: |
-        aws cloudfront create-invalidation \
+        ID=$(aws cloudfront create-invalidation \
           --distribution-id E1PNSO5QUYT69 \
-          --paths "/*"
+          --paths "/*" \
+          --query Invalidation.Id --output text)
+        aws cloudfront wait invalidation-completed \
+          --distribution-id E1PNSO5QUYT69 --id "$ID"
+
+    # The 2026-07-27 and 2026-08-01 wipes both shipped green: sync ok, invalidation ok, site
+    # gone. So a deploy is not done until every host on the distribution demonstrably serves
+    # its own site. The marker is each page's <title>: a wiped prefix 403s (caught by curl -f),
+    # and a wrong-site regression fails the marker — a status check alone is not enough because
+    # unknown paths serve a soft 404 at HTTP 200 by design. Markers live in each app's repo;
+    # renaming a title means updating it here.
+    - name: Verify every host on the distribution
+      run: |
+        check() {
+          body=$(curl -fsS --max-time 20 "$1") \
+            || { echo "FAIL $1: unreachable or not 200"; exit 1; }
+          printf '%s' "$body" | grep -q "$2" \
+            || { echo "FAIL $1: marker $2 missing - wrong site served"; exit 1; }
+          echo "ok $1"
+        }
+        check https://codenickk.com/           'Cloud Engineer'
+        check https://apps.codenickk.com/      '<title>Apps'
+        check https://fuelmeter.codenickk.com/ '<title>fuelmeter'
+        code=$(curl -s -o /dev/null --max-time 20 -w '%{http_code}' https://resume.codenickk.com/)
+        [ "$code" = "301" ] || { echo "FAIL resume.codenickk.com: expected 301, got $code"; exit 1; }
+        echo "ok resume.codenickk.com (301)"
