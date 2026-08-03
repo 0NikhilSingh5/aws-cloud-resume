@@ -32,17 +32,20 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
-    # --exclude "apps/*" is load-bearing, not tidiness. apps.codenickk.com is served from the
-    # apps/ prefix of THIS bucket, and has to be: that host shares the distribution's default
-    # cache behaviour with the apex, and a behaviour has exactly one origin. The resume build
-    # knows nothing about apps/, so --delete treated the whole prefix as a stray and removed it.
-    # That took the app index down twice on 2026-07-27 and the bucket has no versioning to
-    # restore from. Its source is the codenickk-apps repo.
+    # The prefix excludes are load-bearing, not tidiness. apps.codenickk.com and
+    # fuelmeter.codenickk.com are served from prefixes of THIS bucket, and have to be: those
+    # hosts share the distribution's default cache behaviour with the apex, and a behaviour has
+    # exactly one origin. The resume build knows nothing about the prefixes, so --delete treats
+    # each one as a stray and removes it. That took the app index down twice on 2026-07-27 and
+    # the fuelmeter app down on 2026-08-01, and the bucket has no versioning to restore from.
+    # Every new <app>/ prefix in this bucket needs an exclude here BEFORE its first deploy.
+    # Sources: the codenickk-apps and fuel-meter repos.
     - name: Sync build output to S3
       run: |
         aws s3 sync web/out/ s3://nikhilsresumebucket --delete \
           --exclude "__next.*" \
-          --exclude "apps/*"
+          --exclude "apps/*" \
+          --exclude "fuelmeter/*"
 
     - name: Invalidate CloudFront Cache
       run: |
