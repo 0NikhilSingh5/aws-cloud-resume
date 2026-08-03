@@ -37,9 +37,10 @@ jobs:
     # hosts share the distribution's default cache behaviour with the apex, and a behaviour has
     # exactly one origin. The resume build knows nothing about the prefixes, so --delete treats
     # each one as a stray and removes it. That took the app index down twice on 2026-07-27 and
-    # the fuelmeter app down on 2026-08-01, and the bucket has no versioning to restore from.
-    # Every new <app>/ prefix in this bucket needs an exclude here BEFORE its first deploy.
-    # Sources: the codenickk-apps and fuel-meter repos.
+    # the fuelmeter app down on 2026-08-01, both with versioning off. Versioning is on since
+    # 2026-08-03 (noncurrent versions expire after 30 days) — a recovery net, not a reason to
+    # drop an exclude. Every new <app>/ prefix in this bucket needs one here BEFORE its first
+    # deploy. Sources: the codenickk-apps and fuel-meter repos.
     - name: Sync build output to S3
       run: |
         aws s3 sync web/out/ s3://nikhilsresumebucket --delete \
