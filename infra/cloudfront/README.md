@@ -1,34 +1,30 @@
-# CloudFront URL rewrite
+# CloudFront Functions
 
-`url-rewrite.js` handles the index resolution that S3 (REST endpoint) won't do
-on its own. With Next.js `output: "export"` + `trailingSlash: true`, routes
-build as `out/<route>/index.html`. CloudFront needs to be told to append
-`index.html` when a request lands on a directory-style URL — otherwise S3
-returns 403 (because OAC denies `ListBucket`, so missing keys 403 instead of
-404).
+The distribution's routing is **one** viewer-request function, `url-rewrite`, attached to the
+default behaviour of `E1PNSO5QUYT69`. Its source of truth lives in the sibling **`apps-landing`
+repo** (`url-rewrite.js`): host → prefix routing for the apex, `apps.codenickk.com` and
+`fuelmeter.codenickk.com`, the permanent `resume.codenickk.com` 301, and each host's not-found
+rule. There is deliberately **no copy in this repo** — a stale pre-host-routing duplicate sat
+here until 2026-08-03, and publishing it would have silently broken every host but the apex.
 
-## Attach (AWS Console)
+Why a function at all: with Next.js `output: "export"` + `trailingSlash: true`, routes build as
+`out/<route>/index.html`, and the OAC'd S3 REST origin returns **403** (not 404) for missing
+keys because `ListBucket` is denied — so without the rewrite every subroute 403s.
 
-1. CloudFront → Functions → Create function → name `url-rewrite` → runtime
-   `cloudfront-js-2.0`. Paste contents of `url-rewrite.js`.
-2. Test tab: try `/readywire/` — should rewrite to `/readywire/index.html`.
-3. Publish.
-4. Distribution `E1PNSO5QUYT69` → Behaviors → edit the default behavior →
-   Function associations → Viewer request → Function type `CloudFront
-   Functions` → select `url-rewrite` → Save.
-5. Invalidate `/*` to flush cached 403s.
+## Changing it
 
-## Attach (AWS CLI — one-shot)
+Edit `apps-landing/url-rewrite.js`, then follow "Changing the routing function" in
+`fuel-meter/infra/fuelmeter-domain.md` — `update-function`, then `test-function` against the
+DEVELOPMENT stage for **every** host (apex, apps, fuelmeter, the resume 301) before
+`publish-function`, then invalidate. `test-function` runs the real engine; a local mock does
+not. The runtime is `cloudfront-js-2.0` (ES5 only, sub-millisecond budget).
 
-```bash
-aws cloudfront create-function \
-  --name url-rewrite \
-  --function-config Comment="Rewrite dir URIs to index.html",Runtime=cloudfront-js-2.0 \
-  --function-code fileb://url-rewrite.js
+## First-time attach (already done, kept for reference)
 
-# grab the ETag and publish
-ETAG=$(aws cloudfront describe-function --name url-rewrite --query 'ETag' --output text)
-aws cloudfront publish-function --name url-rewrite --if-match "$ETAG"
-
-# then in the console, attach to the default behavior on Viewer request
-```
+1. `aws cloudfront create-function --name url-rewrite --function-config
+   Comment="host routing for the codenickk distribution",Runtime=cloudfront-js-2.0
+   --function-code fileb://url-rewrite.js`
+2. `describe-function` for the ETag, then `publish-function --if-match "$ETAG"`.
+3. Distribution `E1PNSO5QUYT69` → default behaviour → Function associations → Viewer request →
+   `url-rewrite`.
+4. Invalidate `/*` to flush cached 403s.
